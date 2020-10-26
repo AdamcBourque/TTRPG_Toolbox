@@ -1,49 +1,117 @@
+## The Keep TTRPG Toolbox
+## VTC Senior Project 20/21
+## Adam Bourque
+## Zachary Hess
+## Austin Lalumiere
+
 from tkinter import *
 from tkinter import font as tkFont
 from re import split      ## for re.split
 from random import *  ## for pseudorandom number generation
 
 
+##----------------------------------------------------------------------------------------------------------------------------------
+##   Global Variables
+##----------------------------------------------------------------------------------------------------------------------------------
+
+
 BgColor = "grey19"
 lblColor = "grey35"
 ##fontColor = "pink"
 
+##----------------------------------------------------------------------------------------------------------------------------------
+##   Global Functions                               
+##----------------------------------------------------------------------------------------------------------------------------------
+
+
 ## dice roller function takes a string "2d8+5" and prints the rolls and total.
 ## returns total as an int
 def diceRoller(diceString):
-    ## print("Rolling " + diceString + "\n")
+    
     elems = re.split('[+-]', diceString) ##splits into dice types and mod
-
+    test = re.split('[1234567890d]', diceString)
+    totalRoll = ""
+    total = 0
+    gross = True
+    while (gross == True):
+        try:
+            test.remove('')
+        except ValueError:
+           gross = False
+    
+    opString = diceString
+    for i in elems:
+        opString = opString.replace(i,'')
+    
+    
+    for j in range (0, len(elems)-1):
+        dice = elems[j].split('d') ## seperates dice quantity and sizes
+        try:
+            num = int(dice[0])
+        except ValueError:
+            num = 1
+        for i in range (0, num):
+            temp = randint(1, int(dice[1])) 
+            
+            if (num - i == 1):    ## test if last dice in group
+                if (test == []):
+                    totalRoll += str(temp)
+                    total += temp ## adds each dice roll to the total
+                else:
+                    totalRoll += (str(temp) + test[j])
+                    if (j == 0): ## test if first group
+                        total += temp ## adds each dice roll to the total
+                    else:
+                        if (test[j-1] == '+'):
+                            total += temp ## adds each dice roll to the total
+                        else:
+                            total -= temp ## subtracts each dice roll to the total
+            else:
+                total += temp ## adds each dice roll to the total
+                totalRoll += (str(temp) + "+")
+                
     if (elems[-1].find('d') == -1): ## Checks if there is a modifier
         mod = elems[-1] ## stat modifier
-        totalRoll = ""
-        total = int(mod)
-        for j in range (0, len(elems)-1):
-            dice = elems[j].split('d') ## seperates dice quantity and sizes
-            for i in range (0, int(dice[0])):
-                temp = randint(1, int(dice[1])) 
-                total += temp ## adds each dice roll to the total
-                totalRoll += (str(temp) + " + ") ## adds each roll to the return string
-        totalRoll += (str(mod) + " = " + str(total))
+        if (test[-1] == '+'):
+            total += int(mod)
+        else:
+            total -= int(mod)
+        totalRoll += str(mod)
     else:
-        mod = 0
-        totalRoll = ""
-        total = int(mod)
-        for j in range (0, len(elems)):
-            dice = elems[j].split('d') ## seperates dice quantity and sizes
-            for i in range (0, int(dice[0])):
-                temp = randint(1, int(dice[1])) 
-                total += temp ## adds each dice roll to the total
-                totalRoll += (str(temp) + " + ") ## adds each roll to the return string
-        totalRoll += (" = " + str(total))
-    return totalRoll
+        dice = elems[-1].split('d') ## seperates dice quantity and sizes
+        try:
+            num = int(dice[0])
+        except ValueError:
+            num = 1
+        for i in range (0, num):
+            temp = randint(1, int(dice[1])) 
+            total += temp ## adds each dice roll to the total
+            if (num - i == 1):
+                totalRoll += str(temp)
+            else:
+                totalRoll += (str(temp) + "+")
+        
+        
+    totalRoll += (" = " + str(total))
 
-## returns one item from a coma seperatied list read from a file
-def selectFromFile(file):  
-    text = file.read() 
+    return totalRoll
+               
+
+def readCSV(filename):  ## makes a list from a csv
+    file = open(filename, "r")
+    text = file.read()
+    file.close()
     items = text.split(",")
     items[0] = items[0].replace("ï»¿", '') ## remove garbage from front of string
+    return items
+
+## returns one item from a coma seperatied list
+def selectFromList(items):  
     return items[randint(0,len(items)-1)]
+
+##----------------------------------------------------------------------------------------------------------------------------------
+##   Individual Tools 
+##----------------------------------------------------------------------------------------------------------------------------------
 
 ## These classes will be the other tool GUI's
 class NpcGen(Toplevel): 
@@ -89,20 +157,26 @@ class ShopInventory(Toplevel):
           
         super().__init__(master = master) 
         self.title("Shop Inventory Generator") 
-        self.geometry("200x200")
+        self.geometry("400x400")
+
+        rarity = {'c':(10,30), 'u':(5,10), 'r':(1,5), 'v':(0,1)} ## rarity to quantity dictionary 
+        output = StringVar()
         
-        file = open("./TerrainTypes.txt", "r") ## shop types file
-        shops = file.read().split(',') ## shop type list
-        shops[0] = shops[0].replace("ï»¿", '') ## remove garbage from front of string
-        file.close()
+        shops = readCSV("./ShopTypes.txt") ## list of shop types
         
-        shopTypes = StringVar()
-        shopTypes.set(shops[0])
+        shopTypes = StringVar()  ## currently selected shop
+        shopTypes.set(shops[0])  
 
         opt = OptionMenu(self, shopTypes, *shops) ## drop down menu select
         opt.pack()
         
-        label = Label(self, text ="This is a new Window")
+        shop = ("./" + shopTypes + ".txt") ## file path of inventory csv for selected shop
+        items = readCSV(shop) ## list of Items
+
+        for i in items:
+            output += (i[0] + ": " + str(randint(rarity[i[1]][0],rarity[i[1]][1])) + "\n")
+
+        label = Label(self, textvariable = output)
         label.pack()
 
 class StatusTracker(Toplevel): 
@@ -122,7 +196,12 @@ class BattlemapGen(Toplevel):
           
         super().__init__(master = master) 
         self.title("New Window") 
-        self.geometry("200x200")
+        self.geometry("400x400")
+
+        terrains = readCSV("./TerrainTypes.txt")
+        
+        terrainTypes = StringVar()
+        terrainTypes.set(terrains[0])
         
         label = Label(self, text ="This is a new Window")
         label.pack(fill = X, padx=5, pady=5)
@@ -165,11 +244,22 @@ class EncounterGen(Toplevel):
     def __init__(self, master = None): 
           
         super().__init__(master = master) 
-        self.title("New Window") 
-        self.geometry("200x200")
+        self.title("Encounter Generator") 
+        self.geometry("400x400")
+
+        terrains = readCSV("./TerrainTypes.txt")
+        
+        terrainTypes = StringVar()
+        terrainTypes.set(terrains[0])
         
         label = Label(self, text ="This is a new Window")
         label.pack(fill = X, padx=5, pady=5)
+
+
+
+##----------------------------------------------------------------------------------------------------------------------------------
+##   Launch Hub
+##----------------------------------------------------------------------------------------------------------------------------------
 
         
 # creates a Tk() object 
