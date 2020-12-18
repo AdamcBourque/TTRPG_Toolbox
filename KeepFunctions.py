@@ -9,6 +9,8 @@ from tkinter import font as tkFont
 from re import split      ## for re.split
 from random import *  ## for pseudorandom number generation
 from tkinter import filedialog
+from Spell import *
+from Weapon import *
 
 
 ##----------------------------------------------------------------------------------------------------------------------------------

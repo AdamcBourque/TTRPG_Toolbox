@@ -1,12 +1,10 @@
-from tkinter import *
-from tkinter import font as tkFont
-from re import split      ## for re.split
-from random import *  ## for pseudorandom number generation
-from tkinter import filedialog
-
+## The Keep TTRPG Toolbox
+## VTC Senior Project 20/21
+## Adam Bourque
+## Zachary Hess
+## Austin Lalumiere
 
 from KeepFunctions import *
-
 
 class CharacterManage(Toplevel): 
       
@@ -15,96 +13,226 @@ class CharacterManage(Toplevel):
         super().__init__(master = master)
         
         self.title("Character Manager")
-        self.geometry("600x600")
+        self.geometry("900x600")
 
         # Variables
+        profs = []
+        skillMods = []
+        skills = ["Athletics", "Acrobatics", "Sleight of Hand", "Stealth", "Arcana", "History",  "Investigation",
+                  "Nature", "Religion", "Animal Handling", "Insight", "Medicine", "Perception", "Survival", "Deception",
+                  "Intimidation", "Performance", "Persuasion"]
+        
+        classes = ["Rogue","Warlock","Paladin","Monk","Wizard","Cleric","Druid","Barbarian","Sorcerer","Ranger","Bard",
+                   "Fighter","Artificer"]
+
+        stats = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+
+        attacks = []
+        toHits = []
+        damages = []
+        
         name = StringVar()
+        race = StringVar()
         class_ = StringVar()
-        strength = StringVar()
-        dex = StringVar()
-        con = StringVar()
-        inteligence = StringVar()
-        wis = StringVar()
-        cha = StringVar()
-        level = StringVar()
-        prof = StringVar()
-        Athletics = StringVar()
-        Acrobatics = StringVar()
-        Sleight_of_Hand = StringVar()
-        Stealth = StringVar()
-        Arcana = StringVar()
-        History = StringVar()
-        Investigation = StringVar()
-        Nature = StringVar()
-        Religion = StringVar()
-        Animal_Handling = StringVar()
-        Insight = StringVar()
-        Medicine = StringVar()
-        Perception = StringVar()
-        Survival = StringVar()
-        Deception = StringVar()
-        Intimidation = StringVar()
-        Performance = StringVar()
-        Persuasion = StringVar()
-        classes = {"Rogue","Warlock"} ## add more
+        class_.set(classes[0])
+        strength = IntVar(stats[0])
+        dex = IntVar(stats[0])
+        con = IntVar(stats[0])
+        inteligence = IntVar(stats[0])
+        wis = IntVar(stats[0])
+        cha = IntVar(stats[0])
+        strengthMod = (strength.get() - 10) / 2
+        dexMod = (dex.get() - 10) / 2
+        conMod = (con.get() - 10) / 2
+        inteligenceMod = (inteligence.get() - 10) / 2
+        wisMod = (wis.get() - 10) / 2
+        chaMod = (cha.get() - 10) / 2
+        level = IntVar(stats[0])
+        prof = IntVar()
+        passivePerception = 0
+        AC = IntVar()
+        HP = IntVar()
+        movement = IntVar()
+        
+
+        weapons = []
+        spells= []  ## Spell(name, level) from Spell.py in KeepFunctions.py
+        inventory = []
+        description = ""
+        armorTypes = []
 
         name_label = Label(self, text ="Name")
         name_label.grid(row=2, column=0, padx = 2, pady = 2)
         name_entry = Entry(self, textvariable=name) ## field for entry
         name_entry.grid(row=2, column=1, padx = 2, pady = 2)
 
+        race_label = Label(self, text ="Race")
+        race_label.grid(row=2, column=2, padx = 2, pady = 2)
+        race_entry = Entry(self, textvariable=race) ## field for entry
+        race_entry.grid(row=2, column=3, padx = 2, pady = 2)
+
         class_label = Label(self, text ="class")
-        class_label.grid(row=2, column=3, padx = 2, pady = 2)
-        class_entry = Entry(self, textvariable=class_) ## field for entry
-        class_entry.grid(row=2, column=4, padx = 2, pady = 2)
+        class_label.grid(row=2, column=4, padx = 2, pady = 2)
+        class_entry = OptionMenu(self, class_, *classes) ## drop down menu select
+        class_entry.grid(row=2, column=5, padx = 2, pady = 2)
 
         level_label = Label(self, text ="Level")
         level_label.grid(row=2, column=6, padx = 2, pady = 2)
-        level_entry = Entry(self, textvariable=level) ## field for entry
+        level_entry = OptionMenu(self, level, *stats) ## field for entry
         level_entry.grid(row=2, column=7, padx = 2, pady = 2)
+
+        AC_label = Label(self, text ="Armor Class")
+        AC_label.grid(row=4, column=4, padx = 2, pady = 2)
+        AC_entry = Entry(self, textvariable=AC) ## field for entry
+        AC_entry.grid(row=4, column=5, padx = 2, pady = 2)
+
+        HP_label = Label(self, text ="Hit Points")
+        HP_label.grid(row=4, column=2, padx = 2, pady = 2)
+        HP_entry = Entry(self, textvariable=HP) ## field for entry
+        HP_entry.grid(row=4, column=3, padx = 2, pady = 2)
 
         strength_label = Label(self, text ="Str")
         strength_label.grid(row=5, column=0, padx = 2, pady = 2)
-        strength_entry = Entry(self, textvariable=strength) ## field for entry
+        strength_entry = OptionMenu(self, strength, *stats) ## field for entry
         strength_entry.grid(row=5, column=1, padx = 2, pady = 2)
 
         dex_label = Label(self, text ="Dex")
         dex_label.grid(row=7, column=0, padx = 2, pady = 2)
-        dex_entry = Entry(self, textvariable=dex) ## field for entry
+        dex_entry = OptionMenu(self, dex, *stats) ## field for entry
         dex_entry.grid(row=7, column=1, padx = 2, pady = 2)
 
         con_label = Label(self, text ="Con")
         con_label.grid(row=9, column=0, padx = 2, pady = 2)
-        con_entry = Entry(self, textvariable=con) ## field for entry
+        con_entry = OptionMenu(self, con, *stats) ## field for entry
         con_entry.grid(row=9, column=1, padx = 2, pady = 2)
 
         int_label = Label(self, text ="Int")
         int_label.grid(row=11, column=0, padx = 2, pady = 2)
-        int_entry = Entry(self, textvariable=inteligence) ## field for entry
+        int_entry = OptionMenu(self, inteligence, *stats) ## field for entry
         int_entry.grid(row=11, column=1, padx = 2, pady = 2)
 
         wis_label = Label(self, text ="Wis")
         wis_label.grid(row=13, column=0, padx = 2, pady = 2)
-        wis_entry = Entry(self, textvariable=wis) ## field for entry
+        wis_entry = OptionMenu(self, wis, *stats) ## field for entry
         wis_entry.grid(row=13, column=1, padx = 2, pady = 2)
 
         cha_label = Label(self, text ="Cha")
         cha_label.grid(row=15, column=0, padx = 2, pady = 2)
-        cha_entry = Entry(self, textvariable=cha) ## field for entry
+        cha_entry = OptionMenu(self, cha, *stats) ## field for entry
         cha_entry.grid(row=15, column=1, padx = 2, pady = 2)
 
-        lvl = int(level.get())
+        attack_label = Label(self, text = "Attack")
+        attack_label.grid(row=6, column=3, padx = 2, pady = 2)
+
+        hit_label = Label(self, text = "To Hit")
+        hit_label.grid(row=6, column=4, padx = 2, pady = 2)
+
+        dmg_label = Label(self, text = "Damage")
+        dmg_label.grid(row=6, column=5, padx = 2, pady = 2)
+
+        
+
+        for i in range (0,5):
+            attack = StringVar()
+            toHit = StringVar()
+            dmg = StringVar()
+            attacks.append(attack)
+            toHits.append(toHit)
+            damages.append(dmg)
+            atk_entry = Entry(self, textvariable = attacks[i])
+            atk_entry.grid(row=(7+i), column=3, padx = 2, pady = 2)
+            hit_entry = Entry(self, textvariable = toHits[i])
+            hit_entry.grid(row=(7+i), column=4, padx = 2, pady = 2)
+            dmg_entry = Entry(self, textvariable = damages[i])
+            dmg_entry.grid(row=(7+i), column=5, padx = 2, pady = 2)
+            
+
+        lvl = level.get()
 
         if (lvl >= 17):
-            prof = "6"
+            prof = 6
         elif (lvl >= 13):
-            prof = "5"
+            prof = 5
         elif (lvl >= 9):
-            prof = "4"
+            prof = 4
         elif (lvl >= 5):
-            prof = "3"
+            prof = 3
         else:
-            prof = "2"
+            prof = 2
 
+        for i in range (0,18):
+            sProf = IntVar()
+            sMod = IntVar()
+            skill = skills[i]
+            Checkbutton(self, text=skill, variable=sProf).grid(row=(16+int(i/3)), column=2*(i%3))
+            Entry(self, textvariable = sMod).grid(row=(16+int(i/3)), column=2*(i%3)+1)
+            profs.append(sProf)
+            skillMods.append(sMod)
 
+        def loadFromCsv():
+            filename = filedialog.askopenfilename(initialdir = "./Sheets", title = "Select a File", filetypes = (("Text", "*.txt*"), ("all files",  "*.*")))
+            data = readCSV(filename)  ## reads in the data frome the csv selected above
+            name.set(data[0])
+            race.set(data[1])
+            class_.set(data[2])
+            level.set(data[3])
+            strength.set(data[4])
+            dex.set(data[5])
+            con.set(data[6])
+            inteligence.set(data[7])
+            wis.set(data[8])
+            cha.set(data[9])
+            prof = data[10]
+            temp = 11
+            for i in profs:
+                i = data[temp]
+                temp = temp + 1
+            for j in skillMods:
+                j = data[temp]
+                temp = temp + 1
+            for k in range (0,5):
+                attacks[k] = data[temp]
+                toHits[k] = data[temp +1]
+                damages[k] = data[temp +2]
+                temp = temp + 3
+                
+
+        def saveToCsv():
+            output = ""  ## holds the fields in the form of a csv
+            output += name.get() + ","
+            output += race.get() + ","
+            output += class_.get() + ","
+            output += level.get() + ","
+            output += strength.get() + ","
+            output += dex.get() + ","
+            output += con.get() + ","
+            output += inteligence.get() + ","
+            output += wis.get() + ","
+            output += cha.get() + ","
+            output += prof + ","
+            for i in profs:
+                output += i + ","
+            for j in skillMods:
+                output += j + ","
+            for k in range (0,5):
+                output += attacks[k] + "," + toHits[k] + "," + damages[k] + ","
+                
+            sheet = open("./Sheets/" + name.get() + ".txt", "w") ## writes output to file "name.txt"
+            sheet.write(output)
+            sheet.close()
+
+            
+        btnSave = Button(self, text ="Save")
+        btnSave.bind("<Button>", lambda e: saveToCsv())
+        btnSave.grid(row=2, column=9, padx = 2, pady = 2)
+
+        btnLoad = Button(self, text ="Load")
+        btnLoad.bind("<Button>", lambda e: loadFromCsv())
+        btnLoad.grid(row=2, column=10, padx = 2, pady = 2)
+        
+
+       
+
+      
+        
 

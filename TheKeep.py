@@ -77,7 +77,7 @@ btnStatus.pack(fill = X, padx=5, pady=8)
 
 
 btnEncounter = Button(master, text ="Encounter Generator", font = btnFont)
-btnEncountern.bind("<Button>", lambda e: EncounterGen(master))
+btnEncounter.bind("<Button>", lambda e: EncounterGen(master))
 btnEncounter.pack(fill = X, padx=5, pady=8)
 
 
