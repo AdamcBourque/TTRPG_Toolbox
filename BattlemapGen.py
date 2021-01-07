@@ -5,6 +5,10 @@
 ## Austin Lalumiere
 
 from KeepFunctions import *
+from perlin_noise import *
+import matplotlib.pyplot as plt
+import tkinter as tk
+
 
 class BattlemapGen(Toplevel): 
       
@@ -18,42 +22,108 @@ class BattlemapGen(Toplevel):
         features = readCSV("./CSVs/TerrainTypes.txt") ## temp
         sizes = ["Small","Medium","Large"]
         featureDensities = ["None","Low","Normal","High"]
+
+        frame = Frame(self)
+        frame.pack()
         
         terrainTypes = StringVar()
         terrainTypes.set(terrains[0])
 
-        terrain_label = Label(self, text ="Terrain Type")
+        terrain_label = Label(frame, text ="Terrain Type")
         terrain_label.grid(row=1, column=0, padx = 2, pady = 2)
-        TerrainOpt = OptionMenu(self, terrainTypes, *terrains) ## drop down menu select
+        TerrainOpt = OptionMenu(frame, terrainTypes, *terrains) ## drop down menu select
         TerrainOpt.grid(row=1, column=2, padx = 2, pady = 2)
-
-        FeatureTypes = StringVar()
-        FeatureTypes.set(features[0])
-
-        feature_label = Label(self, text ="Feature Type")
-        feature_label.grid(row=1, column=3, padx = 2, pady = 2)
-        FeatureOpt = OptionMenu(self, terrainTypes, *terrains) ## drop down menu select
-        FeatureOpt.grid(row=1, column=4, padx = 2, pady = 2)
 
         size = StringVar()
         size.set(sizes[0])
 
-        size_label = Label(self, text ="Size")
+        size_label = Label(frame, text ="Size")
         size_label.grid(row=1, column=5, padx = 2, pady = 2)
-        SizeOpt = OptionMenu(self, size, *sizes) ## drop down menu select
+        SizeOpt = OptionMenu(frame, size, *sizes) ## drop down menu select
         SizeOpt.grid(row=1, column=6, padx = 2, pady = 2)
 
         density = StringVar()
         density.set(featureDensities[2])
 
-        density_label = Label(self, text ="Feature Density")
+        density_label = Label(frame, text ="Feature Density")
         density_label.grid(row=1, column=7, padx = 2, pady = 2)
-        DensityOpt = OptionMenu(self, density, *featureDensities) ## drop down menu select
+        DensityOpt = OptionMenu(frame, density, *featureDensities) ## drop down menu select
         DensityOpt.grid(row=1, column=8, padx = 2, pady = 2)
 
+        new_frame = Frame(self)
+        new_frame.pack()
 
-        def GenMap(*args):
-            temp = 0
+        info_label = Label(new_frame, text ="Map may take some time to generate")
+        info_label.pack()
+
+        def GenMap(size, density, terrainType):
+            ## Size choice
+            if (size == 'Small'):
+                xpix, ypix = 100, 100
+            elif (size == 'Medium'):
+                xpix, ypix = 200, 200
+            elif (size == 'Large'):
+                xpix, ypix = 300, 300
+                
+            ## Density choice
+            if (density == 'None'):
+                
+            elif (density == 'Low'):
+                
+            elif (density == 'Normal'):
+               
+            elif (density == 'High'):
+                
+            octi = xpix/100
+            noise = PerlinNoise(octaves = octi, seed = randint(1,8))
+            
+            ##Terrain Choice
+            if (terrainType == 'Arctic'):
+                color = 'Blues'
+                pic = [[noise([i/xpix, j/ypix]) for j in range(xpix)] for i in range(ypix)]
+            elif (terrainType == 'Coastal'):
+                color = 'YlGnBu'
+                pic = [[noise([i/xpix, j/ypix]) for j in range(xpix)] for i in range(ypix)]
+            elif (terrainType == 'Desert'):
+                color = 'Wistia'
+                pic = [[noise([i/xpix, j/ypix]) for j in range(xpix)] for i in range(ypix)]
+            elif (terrainType == 'Forest'):
+                color = 'YlGn'
+                pic = [[noise([i/xpix, j/ypix]) for j in range(xpix)] for i in range(ypix)]
+            elif (terrainType == 'Grassland'):
+                color = 'summer'
+                pic = [[noise([i/xpix, j/ypix]) for j in range(xpix)] for i in range(ypix)]
+            elif (terrainType == 'Hill'):
+                color = 'Greens'
+                pic = [[noise([i/xpix, j/ypix]) for j in range(xpix)] for i in range(ypix)]
+            elif (terrainType == 'Mountain'):
+                color = 'copper'
+                pic = [[noise([i/xpix, j/ypix]) for j in range(xpix)] for i in range(ypix)]
+            elif (terrainType == 'Open Water'):
+                color = 'winter'
+                pic = [[noise([i/xpix, j/ypix]) for j in range(xpix)] for i in range(ypix)]
+            elif (terrainType == 'Swamp'):
+                color = 'BrBG'
+                pic = [[noise([i/xpix, j/ypix]) for j in range(xpix)] for i in range(ypix)]
+            elif (terrainType == 'Underdark'):
+                color = 'bone'
+                pic = [[noise([i/xpix, j/ypix]) for j in range(xpix)] for i in range(ypix)]
+            elif (terrainType == 'Underwater'):
+                color = 'terrain'
+                octi *= 2
+                noise = PerlinNoise(octaves = octi, seed = randint(1,8))
+                pic = [[noise([i/xpix, j/ypix]) for j in range(xpix)] for i in range(ypix)]
+            elif (terrainType == 'Urban'):
+                color = 'binary'
+                octi = 1
+                noise = PerlinNoise(octaves = octi, seed = randint(1,8))
+                pic = [[noise([i/xpix, j/ypix]) for j in range(xpix)] for i in range(ypix)]          
+
+            plt.imshow(pic, cmap=color)
+            plt.axis(False)
+            plt.show()
         
-        button1 = Button(self, text="Generate", command=GenMap) 
-        button1.grid(row=2, column=3, padx = 2, pady = 2)
+        
+        btnBattlemap = tk.Button(frame, text ="Generate")
+        btnBattlemap.bind("<Button>", lambda e: GenMap(size.get(), density.get(), terrainTypes.get()))
+        btnBattlemap.grid(row=1, column=9, padx = 2, pady = 2)
