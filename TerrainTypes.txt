@@ -1,1 +1,0 @@
-﻿Arctic,Coastal,Desert,Forest,Grassland,Hill,Mountain,Open Water,Swamp,Underdark,Underwater,Urban
