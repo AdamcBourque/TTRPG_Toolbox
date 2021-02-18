@@ -213,20 +213,20 @@ class CharacterManage(Toplevel):
             output += name.get() + ","
             output += race.get() + ","
             output += class_.get() + ","
-            output += level.get() + ","
-            output += strength.get() + ","
-            output += dex.get() + ","
-            output += con.get() + ","
-            output += inteligence.get() + ","
-            output += wis.get() + ","
-            output += cha.get() + ","
-            output += prof + ","
+            output += str(level.get()) + ","
+            output += str(strength.get()) + ","
+            output += str(dex.get()) + ","
+            output += str(con.get()) + ","
+            output += str(inteligence.get()) + ","
+            output += str(wis.get()) + ","
+            output += str(cha.get()) + ","
+            output += str(prof) + ","
             for i in profs:
-                output += i + ","
+                output += str(i.get) + ","
             for j in skillMods:
-                output += j + ","
+                output += str(j.get) + ","
             for k in range (0,5):
-                output += attacks[k] + "," + toHits[k] + "," + damages[k] + ","
+                output += attacks[k] + "," + str(toHits[k]) + "," + str(damages[k])+ ","
                 
             sheet = open("./Sheets/" + name.get() + ".txt", "w") ## writes output to file "name.txt"
             sheet.write(output)
