@@ -222,9 +222,9 @@ class CharacterManage(Toplevel):
                  if (data[temp] != ""):
                     attacks[k].set(data[temp])
                  if (data[temp + 1] != ""):
-                    toHits[k].set(int(data[temp +1]))
+                    toHits[k].set(data[temp +1])
                  if (data[temp + 2] != ""):
-                    damages[k].set(int(data[temp +2]))
+                    damages[k].set(data[temp +2])
                  temp = temp + 3
                 
 
@@ -248,7 +248,7 @@ class CharacterManage(Toplevel):
             for j in skillMods:
                 output += str(j.get()) + ","
             for k in range (0,5):
-                output += attacks[k].get() + "," + str(toHits[k].get()) + "," + str(damages[k].get())+ ","
+                output += attacks[k].get() + "," + toHits[k].get() + "," + damages[k].get()+ ","
                 
             sheet = open("./Sheets/" + name.get() + ".txt", "w") ## writes output to file "name.txt"
             sheet.write(output)
