@@ -183,29 +183,49 @@ class CharacterManage(Toplevel):
         def loadFromCsv():
             filename = filedialog.askopenfilename(initialdir = "./Sheets", title = "Select a File", filetypes = (("Text", "*.txt*"), ("all files",  "*.*")))
             data = readCSV(filename)  ## reads in the data frome the csv selected above
-            name.set(data[0])
-            race.set(data[1])
-            class_.set(data[2])
-            level.set(data[3])
-            strength.set(data[4])
-            dex.set(data[5])
-            con.set(data[6])
-            inteligence.set(data[7])
-            wis.set(data[8])
-            cha.set(data[9])
-            prof = data[10]
-            temp = 11
+            if (data[0] != ""):
+                name.set(data[0])
+            if (data[1] != ""):
+                race.set(data[1])
+            if (data[2] != ""):
+                class_.set(data[2])
+            if (data[3] != ""):
+                level.set(int(data[3]))
+            if (data[4] != ""):
+                strength.set(int(data[4]))
+            if (data[5] != ""):
+                dex.set(int(data[5]))
+            if (data[6] != ""):
+                con.set(int(data[6]))
+            if (data[7] != ""):
+                inteligence.set(int(data[7]))
+            if (data[8] != ""):
+                wis.set(int(data[8]))
+            if (data[9] != ""):
+                cha.set(int(data[9]))
+            if (data[10] != ""):
+                prof = int(data[10])
+            if (data[11] != ""):
+                HP.set(int(data[11]))
+            if (data[12] != ""):
+                AC.set(int(data[12]))
+            temp = 13
             for i in profs:
-                i = data[temp]
+                if (data[temp] != ""):
+                    i.set(data[temp])
                 temp = temp + 1
             for j in skillMods:
-                j = data[temp]
-                temp = temp + 1
+                 if (data[temp] != ""):
+                    j.set(int(data[temp]))
+                 temp = temp + 1
             for k in range (0,5):
-                attacks[k] = data[temp]
-                toHits[k] = data[temp +1]
-                damages[k] = data[temp +2]
-                temp = temp + 3
+                 if (data[temp] != ""):
+                    attacks[k].set(data[temp])
+                 if (data[temp + 1] != ""):
+                    toHits[k].set(int(data[temp +1]))
+                 if (data[temp + 2] != ""):
+                    damages[k].set(int(data[temp +2]))
+                 temp = temp + 3
                 
 
         def saveToCsv():
@@ -221,12 +241,14 @@ class CharacterManage(Toplevel):
             output += str(wis.get()) + ","
             output += str(cha.get()) + ","
             output += str(prof) + ","
+            output += str(HP.get()) + ","
+            output += str(AC.get()) + ","
             for i in profs:
-                output += str(i.get) + ","
+                output += str(i.get()) + ","
             for j in skillMods:
-                output += str(j.get) + ","
+                output += str(j.get()) + ","
             for k in range (0,5):
-                output += attacks[k] + "," + str(toHits[k]) + "," + str(damages[k])+ ","
+                output += attacks[k].get() + "," + str(toHits[k].get()) + "," + str(damages[k].get())+ ","
                 
             sheet = open("./Sheets/" + name.get() + ".txt", "w") ## writes output to file "name.txt"
             sheet.write(output)
