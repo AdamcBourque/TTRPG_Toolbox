@@ -11,7 +11,6 @@ import numpy as np
 import tkinter as tk
 import matplotlib.image as mpimg
 import PIL as PIL
-from os import listdir
 from random import choice
 
 
@@ -34,7 +33,7 @@ class BattlemapGen(Toplevel):
         map_name = StringVar()
         map_name.set("New Map")
 
-        map_name_label = Label(frame, text ="Terrain Type")
+        map_name_label = Label(frame, text ="Map Name")
         map_name_label.grid(row=1, column=0, padx = 2, pady = 2)
         map_name_entry = Entry(frame, textvariable=map_name)
         map_name_entry.grid(row=1, column=2, padx = 2, pady = 2)
@@ -73,24 +72,28 @@ class BattlemapGen(Toplevel):
 
         def GenMap(size, density, terrainType):
             ## Size choice
-            size = 400
+            sizey = 400
+            sizex = 462
             if (size == 'Small'):
-                size = 400
+                sizey = 400
+                sizex = 462
             elif (size == 'Medium'):
-                size = 800
+                sizey = 800
+                sizex = 924
             elif (size == 'Large'):
-                size = 1200
+                sizey = 1200
+                sizex = 1386
                 
             ## Density choice
             densityv = 10000
             if (density == 'None'):
                 densityv=0
             elif (density == 'Low'):
-                densityv=2*size/100
+                densityv=2*sizey/100
             elif (density == 'Normal'):
-                densityv=4*size/100
+                densityv=4*sizey/100
             elif (density == 'High'):
-                densityv=8*size/100
+                densityv=8*sizey/100
                 
             octi = xpix/100
             noise = PerlinNoise(octaves = octi, seed = randint(1,8))
@@ -151,6 +154,8 @@ class BattlemapGen(Toplevel):
                 pic = [[noise([i/xpix, j/ypix]) for j in range(xpix)] for i in range(ypix)]
                 resourcePath = "./Resources/UrbanResources/"
 
+            saveToCsv()
+
             dx, dy = 0.05, 0.05
 
             x = np.arange(0.0, 5.0, dx)
@@ -159,7 +164,7 @@ class BattlemapGen(Toplevel):
 
             extent = np.min(x), np.max(x), np.min(y), np.max(y)
             fig = plt.figure()
-            fig.set_size_inches(6,6)
+            fig.set_size_inches(sizex/100,sizey/100)
 
             
             im1 = plt.imshow(pic, cmap=color, interpolation='hanning',
@@ -167,26 +172,34 @@ class BattlemapGen(Toplevel):
             
             
             plt.axis(False)
-            fig.savefig(map_name.get() + ".png", bbox_inches='tight')
+            fig.savefig("./Maps/" + map_name.get() + ".png", bbox_inches='tight', pad_inches = 0)
 
-            first_image = PIL.Image.open(map_name.get() + ".png")
-            first_image = first_image.resize((size,size), resample=0)
+            first_image = PIL.Image.open("./Maps/" + map_name.get() + ".png")
+            first_image = first_image.resize((sizex,sizey), resample=0)
 
-            for i in range(0,int(size/50)):
-                for j in range(0,int(size/50)):
-                    check = randint(0,int(size/50*size/50))
+            for i in range(0,int(sizey/50)):
+                for j in range(0,int(sizey/50)):
+                    check = randint(0,int(sizex/50*sizey/50))
                     if (check < densityv):
                         second_image = PIL.Image.open(resourcePath + choice(listdir(resourcePath)))
                         second_image = second_image.resize((50,50), resample=0)
-                        first_image.paste(second_image, (i*50,j*50), mask = second_image)
+                        first_image.paste(second_image, (i*50+6,j*50+6), mask = second_image)
             
             first_image.show()
-            first_image.save(map_name.get() + ".png")
+            first_image.save("./Maps/" + map_name.get() + ".png")
             
 
-            
-        
+                    
         
         btnBattlemap = tk.Button(frame, text ="Generate")
         btnBattlemap.bind("<Button>", lambda e: GenMap(size.get(), density.get(), terrainTypes.get()))
         btnBattlemap.grid(row=1, column=9, padx = 2, pady = 2)
+
+        def saveToCsv():
+            output = ""  ## holds the fields in the form of a csv
+            output += terrainTypes.get() + ""
+                
+            sheet = open("./MapData/" + map_name.get() + ".txt", "w") ## writes output to file "name.txt"
+            output = output.replace('\ufeff', '')
+            sheet.write(output)
+            sheet.close()

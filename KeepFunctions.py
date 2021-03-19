@@ -6,11 +6,13 @@
 
 from tkinter import *
 from tkinter import font as tkFont
-from re import split      ## for re.split
+from re import split      ## for re.split weird 3.9
 from random import *  ## for pseudorandom number generation
 from tkinter import filedialog
 from Spell import *
 from Weapon import *
+from os import listdir
+
 
 
 ##----------------------------------------------------------------------------------------------------------------------------------
@@ -31,8 +33,8 @@ lblColor = "grey35"
 def diceRoller(diceString):
 
     diceString = diceString.replace(' ', '')
-    elems = re.split('[+-]', diceString) ##splits into dice types and mod
-    test = re.split('[1234567890d]', diceString)
+    elems = split('[+-]', diceString) ##splits into dice types and mod
+    test = split('[1234567890d]', diceString)
     totalRoll = ""
     total = 0
     gross = True
@@ -125,6 +127,15 @@ def readTupleCSV(filename):
         temp = i.split(',')
         tuples.append(temp)
     return tuples
+
+def readTupleCSV2(filename):
+    file = open(filename, "r", encoding="utf-8-sig")
+    text = file.read()
+    file.close()
+    items = text.split("),")
+    items[0] = items[0].replace("ï»¿", '') ## remove garbage from front of string
+    items[-1] = items[-1].replace("\n", '') ## remove garbage from back of string
+    return items
 
 ## returns one item from a coma seperatied list
 def selectFromList(items):  

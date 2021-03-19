@@ -35,14 +35,27 @@ class NpcGen(Toplevel):
         numN = StringVar() ## Number of negative traits
         numN.set(nNums[0])
 
+        labelType = Label(self, text = "NPC Type")
+        labelType.pack()
         opType = OptionMenu(self, Types, *types) ## drop down menu select
         opType.pack()
 
+        labelType = Label(self, text = "Positive traits")
+        labelType.pack()
         optP = OptionMenu(self, numP, *pNums) ## drop down menu select
         optP.pack()
 
+        labelN = Label(self, text = "Negative traits")
+        labelN.pack()
         optN = OptionMenu(self, numN, *nNums) ## drop down menu select
         optN.pack()
+
+        labelOutputType = Label(self, text = "")
+        labelOutputType.pack()
+        labelOutputP = Label(self, text = "")
+        labelOutputP.pack()
+        labelOutputN = Label(self, text = "")
+        labelOutputN.pack()
 
         def NPC_Gen(*args):
             output = StringVar()
@@ -54,8 +67,7 @@ class NpcGen(Toplevel):
             npcs = readCSV(NPC_Type) ## list of npc possibilities
             temp += selectFromList(npcs)
             output.set(temp)
-            label = Label(self, textvariable = output) ## output label
-            label.pack()
+            labelOutputType.config(text = output.get())
             temp = "Positive Traits: "
             i = 0
             while i < (int(numP.get())):
@@ -65,25 +77,28 @@ class NpcGen(Toplevel):
                     temp = temp + fetched + ", "
                 else:
                     i -= 1
-                print (str(i)+"\n")
-                print (fetched)
+                
             
             PosTrait.set(temp[0:-2])
-            label = Label(self, textvariable = PosTrait) ## output label
-            label.pack()
+            labelOutputP.config(text = PosTrait.get())
             
             temp = "Negative Traits: "
             for i in range (int(numN.get())):
                 fetched = selectFromList(nTraits)
                 if (temp.find(fetched) == -1):
                     temp = temp + fetched + ", " 
-                    print (temp)
+                    
                 else:
                     i -= 1
             
             NegTrait.set(temp[0:-2])
-            label = Label(self, textvariable = NegTrait) ## output label
-            label.pack()
+            labelOutputN.config(text = NegTrait.get())
+
+
+        def Clear():
+            labelOutputType.config(text = "")
+            labelOutputP.config(text = "")
+            labelOutputN.config(text = "")
             
             
         button1 = Button(self, text="Generate", command=NPC_Gen) ## button to run process 
