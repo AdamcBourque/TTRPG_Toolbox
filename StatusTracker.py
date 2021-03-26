@@ -26,8 +26,7 @@ class StatusTracker(Toplevel):
             temp = temp.split(',')
             condition_descriptions.append(temp[1])
             conditions[i] = temp[0]
-            
-        spells = readTupleCSV2("./CSVs/Spells.txt")
+                
         spell_slots = []
         other_resource = []
         char_conditions = []
@@ -36,7 +35,6 @@ class StatusTracker(Toplevel):
         reaction = True
         movement = 0
         
-
         frame = Frame(self)
         frame.pack()
 
@@ -69,11 +67,30 @@ class StatusTracker(Toplevel):
         def short_rest():
             temp = "not implemented"
 
+        def new_turn():
+            action = True
+            bonus_action = True
+            reaction = True
+
         def reset():
-            temp = "not implemented"
+            char_name.set("Your Character")
+            condition_name.set(conditions[0])
+            spell_slots = []
+            other_resource = []
+            char_conditions = []
+            action = True
+            bonus_action = True
+            reaction = True
+            movement = 0
 
         def add_condition():
-            temp = "not implemented"
+            has = False
+            if (char_conditions != []):
+                for i in char_conditions:
+                    if (i == condition_name.get()):
+                        has = True
+            if (has == False):
+                char_conditions.append(condition_name.get())
 
         def add_spell():
             temp = "not implemented"

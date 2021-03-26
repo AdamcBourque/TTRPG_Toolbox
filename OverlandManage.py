@@ -14,15 +14,22 @@ import PIL as PIL
 import tkinter as tk
 from EncounterGen import *
 
+
+terrains = []
+tiles = []
+text = 0
+
 class OverlandManage(Toplevel): 
       
-    def __init__(self, master = None): 
+    def __init__(self, master = None):
+
+        global terrains
+        terrains = readCSV("./CSVs/TerrainTypes.txt")
           
         super().__init__(master = master) 
         self.title("New Window") 
         self.geometry("800x600")
         
-        terrains = readCSV("./CSVs/TerrainTypes.txt")
         features = readCSV("./CSVs/TerrainTypes.txt") ## temp
         sizes = ["Small","Medium","Large"]
         maps = listdir("./Maps")
@@ -53,9 +60,6 @@ class OverlandManage(Toplevel):
         SizeOpt = Scale(frame, orient = HORIZONTAL, from_=25, to=75, resolution=1, command = Csize)
         
         SizeOpt.grid(row=1, column=6, padx = 2, pady = 2)
-
-        text = 0
-
 
         def overlay():
             
@@ -91,7 +95,7 @@ class OverlandManage(Toplevel):
 
             print(len(offCoord))
 
-            saveToCsv()
+            ##saveToCsv()
 
             for c in offCoord:
                 hex_img = hex_img.resize((size_hex,size_hex), resample=1) # size of hexes
@@ -123,11 +127,14 @@ class OverlandManage(Toplevel):
             print("tested")
 
         def tile_formatter():
-            global terrainTypes, terrains, tiles
+            global terrains, tiles
             
             formatter = Toplevel(self)
             formatter.title("Test")
             formatter.geometry("200x200")
+
+            terrainTypes = StringVar()
+            terrainTypes.set(terrains[0])
 
             terrain_label = Label(formatter, text ="Terrain Type")
             terrain_label.grid(row=1, column=3, padx = 2, pady = 2)
@@ -138,7 +145,7 @@ class OverlandManage(Toplevel):
             btnSubmit.bind("<Button>", lambda e: submit())
             btnSubmit.grid(row=1, column=9, padx = 2, pady = 2)
 
-        tiles = []
+        
         for i in range(1,text):
             tiles.append(i)
 

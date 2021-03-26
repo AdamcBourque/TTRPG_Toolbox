@@ -14,6 +14,7 @@ from EncounterGen import *
 from NpcGen import *
 from OverlandManage import *
 from StatusTracker import *
+from SpellManager import *
 
 
 ##----------------------------------------------------------------------------------------------------------------------------------
@@ -32,7 +33,7 @@ btnFont = tkFont.Font(family='Helvetica', size=14, weight=tkFont.BOLD)
 master.configure(background=BgColor)
 
 # sets the geometry of main root window 
-master.geometry("600x600")
+master.geometry("600x700")
 
 label = Label(master, text ="Welcome to The Keep", background=lblColor, anchor = 'center', font = lblFont)
 
@@ -84,6 +85,10 @@ btnEncounter.pack(fill = X, padx=5, pady=8)
 btnOverland = Button(master, text ="Overland Travel Manager", font = btnFont)
 btnOverland.bind("<Button>", lambda e: OverlandManage(master))
 btnOverland.pack(fill = X, padx=5, pady=8)
+
+btnSpell = Button(master, text ="Spell Manager", font = btnFont)
+btnSpell.bind("<Button>", lambda e: SpellManager(master))
+btnSpell.pack(fill = X, padx=5, pady=8)
 
 # mainloop, runs infinitely 
 mainloop() 

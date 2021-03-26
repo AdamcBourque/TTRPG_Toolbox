@@ -6,6 +6,13 @@
 
 
 class Spell:
-  def __init__(self, name, lvl):
-    self.name = name
-    self.lvl = lvl
+
+  name = ""
+  lvl = 0
+  spell_type = ""
+  
+  
+  def __init__(self, *spell):
+    self.name = spell[0]
+    self.lvl = spell[1]
+    self.spell_type = spell[2]
