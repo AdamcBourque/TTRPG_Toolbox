@@ -30,6 +30,7 @@ class StatusTracker(Toplevel):
         spell_slots = []
         other_resource = []
         char_conditions = []
+        hit_dice = 0
         action = True
         bonus_action = True
         reaction = True
@@ -58,14 +59,33 @@ class StatusTracker(Toplevel):
         btnAfflict.bind("<Button>", lambda e: add_condition())
         btnAfflict.grid(row=1, column=5, padx = 2, pady = 2)
 
+        btnLong = Button(frame, text ="Long Rest")
+        btnLong.bind("<Button>", lambda e: long_rest())
+        btnLong.grid(row=2, column=0, padx = 2, pady = 2)
+
+        btnShort = Button(frame, text ="Short Rest")
+        btnShort.bind("<Button>", lambda e: short_rest())
+        btnShort.grid(row=2, column=1, padx = 2, pady = 2)
+
+        btnNewRound = Button(frame, text ="New Round")
+        btnNewRound.bind("<Button>", lambda e: new_turn())
+        btnNewRound.grid(row=2, column=2, padx = 2, pady = 2)
+
+        
+
         def import_char():
             temp = "not implemented"
 
         def long_rest():
-            temp = "not implemented"
+            char_conditions = []
+            action = True
+            bonus_action = True
+            reaction = True
 
         def short_rest():
-            temp = "not implemented"
+            action = True
+            bonus_action = True
+            reaction = True
 
         def new_turn():
             action = True
@@ -94,6 +114,9 @@ class StatusTracker(Toplevel):
 
         def add_spell():
             temp = "not implemented"
+
+        new_frame = Frame(self)
+        new_frame.pack()
 
         
 
