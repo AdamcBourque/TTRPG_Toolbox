@@ -5,6 +5,7 @@
 ## Austin Lalumiere
 
 from KeepFunctions import *
+import SpellManager
 
 class CharacterManage(Toplevel): 
       
@@ -13,10 +14,13 @@ class CharacterManage(Toplevel):
         super().__init__(master = master)
         
         self.title("Character Manager")
-        self.geometry("900x600")
+        self.geometry("1000x600")
+
+        frame = Frame(self)
+        frame.pack()
 
         for i in range (0, 30):
-            self.columnconfigure(i, weight=1)
+            frame.columnconfigure(i, weight=1)
 
         # Variables
         profs = []
@@ -64,78 +68,78 @@ class CharacterManage(Toplevel):
         description = ""
         armorTypes = []
 
-        name_label = Label(self, text ="Name")
+        name_label = Label(frame, text ="Name")
         name_label.grid(row=2, column=0, padx = 2, pady = 2)
-        name_entry = Entry(self, textvariable=name) ## field for entry
+        name_entry = Entry(frame, textvariable=name) ## field for entry
         name_entry.grid(row=2, column=1, padx = 2, pady = 2)
 
-        race_label = Label(self, text ="Race")
+        race_label = Label(frame, text ="Race")
         race_label.grid(row=2, column=2, padx = 2, pady = 2)
-        race_entry = Entry(self, textvariable=race) ## field for entry
+        race_entry = Entry(frame, textvariable=race) ## field for entry
         race_entry.grid(row=2, column=3, padx = 2, pady = 2)
 
-        class_label = Label(self, text ="class")
+        class_label = Label(frame, text ="class")
         class_label.grid(row=2, column=4, padx = 2, pady = 2)
-        class_entry = OptionMenu(self, class_, *classes) ## drop down menu select
+        class_entry = OptionMenu(frame, class_, *classes) ## drop down menu select
         class_entry.grid(row=2, column=5, padx = 2, pady = 2)
 
-        level_label = Label(self, text ="Level")
+        level_label = Label(frame, text ="Level")
         level_label.grid(row=2, column=6, padx = 2, pady = 2)
-        level_entry = OptionMenu(self, level, *stats) ## field for entry
+        level_entry = OptionMenu(frame, level, *stats) ## field for entry
         level_entry.grid(row=2, column=7, padx = 2, pady = 2)
 
-        gap_label = Label(self, text =" ")
+        gap_label = Label(frame, text =" ")
         gap_label.grid(row=3, column=0, padx = 2, pady = 2)
-        gap2_label = Label(self, text =" ")
+        gap2_label = Label(frame, text =" ")
         gap2_label.grid(row=4, column=0, padx = 2, pady = 2)
 
-        AC_label = Label(self, text ="Armor Class")
+        AC_label = Label(frame, text ="Armor Class")
         AC_label.grid(row=5, column=4, padx = 2, pady = 2)
-        AC_entry = Entry(self, textvariable=AC) ## field for entry
+        AC_entry = Entry(frame, textvariable=AC) ## field for entry
         AC_entry.grid(row=5, column=5, padx = 2, pady = 2)
 
-        HP_label = Label(self, text ="Hit Points")
+        HP_label = Label(frame, text ="Hit Points")
         HP_label.grid(row=5, column=2, padx = 2, pady = 2)
-        HP_entry = Entry(self, textvariable=HP) ## field for entry
+        HP_entry = Entry(frame, textvariable=HP) ## field for entry
         HP_entry.grid(row=5, column=3, padx = 2, pady = 2)
 
-        strength_label = Label(self, text ="Str")
+        strength_label = Label(frame, text ="Str")
         strength_label.grid(row=5, column=0, padx = 2, pady = 2)
-        strength_entry = OptionMenu(self, strength, *stats) ## field for entry
+        strength_entry = OptionMenu(frame, strength, *stats) ## field for entry
         strength_entry.grid(row=5, column=1, padx = 2, pady = 2)
 
-        dex_label = Label(self, text ="Dex")
+        dex_label = Label(frame, text ="Dex")
         dex_label.grid(row=6, column=0, padx = 2, pady = 2)
-        dex_entry = OptionMenu(self, dex, *stats) ## field for entry
+        dex_entry = OptionMenu(frame, dex, *stats) ## field for entry
         dex_entry.grid(row=6, column=1, padx = 2, pady = 2)
 
-        con_label = Label(self, text ="Con")
+        con_label = Label(frame, text ="Con")
         con_label.grid(row=7, column=0, padx = 2, pady = 2)
-        con_entry = OptionMenu(self, con, *stats) ## field for entry
+        con_entry = OptionMenu(frame, con, *stats) ## field for entry
         con_entry.grid(row=7, column=1, padx = 2, pady = 2)
 
-        int_label = Label(self, text ="Int")
+        int_label = Label(frame, text ="Int")
         int_label.grid(row=8, column=0, padx = 2, pady = 2)
-        int_entry = OptionMenu(self, inteligence, *stats) ## field for entry
+        int_entry = OptionMenu(frame, inteligence, *stats) ## field for entry
         int_entry.grid(row=8, column=1, padx = 2, pady = 2)
 
-        wis_label = Label(self, text ="Wis")
+        wis_label = Label(frame, text ="Wis")
         wis_label.grid(row=9, column=0, padx = 2, pady = 2)
-        wis_entry = OptionMenu(self, wis, *stats) ## field for entry
+        wis_entry = OptionMenu(frame, wis, *stats) ## field for entry
         wis_entry.grid(row=9, column=1, padx = 2, pady = 2)
 
-        cha_label = Label(self, text ="Cha")
+        cha_label = Label(frame, text ="Cha")
         cha_label.grid(row=10, column=0, padx = 2, pady = 2)
-        cha_entry = OptionMenu(self, cha, *stats) ## field for entry
+        cha_entry = OptionMenu(frame, cha, *stats) ## field for entry
         cha_entry.grid(row=10, column=1, padx = 2, pady = 2)
 
-        attack_label = Label(self, text = "Attack")
+        attack_label = Label(frame, text = "Attack")
         attack_label.grid(row=6, column=3, padx = 2, pady = 2)
 
-        hit_label = Label(self, text = "To Hit")
+        hit_label = Label(frame, text = "To Hit")
         hit_label.grid(row=6, column=4, padx = 2, pady = 2)
 
-        dmg_label = Label(self, text = "Damage")
+        dmg_label = Label(frame, text = "Damage")
         dmg_label.grid(row=6, column=5, padx = 2, pady = 2)
 
         
@@ -147,15 +151,15 @@ class CharacterManage(Toplevel):
             attacks.append(attack)
             toHits.append(toHit)
             damages.append(dmg)
-            atk_entry = Entry(self, textvariable = attacks[i])
+            atk_entry = Entry(frame, textvariable = attacks[i])
             atk_entry.grid(row=(7+i), column=3, padx = 2, pady = 2)
-            hit_entry = Entry(self, textvariable = toHits[i])
+            hit_entry = Entry(frame, textvariable = toHits[i])
             hit_entry.grid(row=(7+i), column=4, padx = 2, pady = 2)
-            dmg_entry = Entry(self, textvariable = damages[i])
+            dmg_entry = Entry(frame, textvariable = damages[i])
             dmg_entry.grid(row=(7+i), column=5, padx = 2, pady = 2)
 
 
-        gap3_label = Label(self, text =" ")
+        gap3_label = Label(frame, text =" ")
         gap3_label.grid(row=13, column=0, padx = 2, pady = 2)
 
         lvl = level.get()
@@ -175,8 +179,8 @@ class CharacterManage(Toplevel):
             sProf = IntVar()
             sMod = IntVar()
             skill = skills[i]
-            Checkbutton(self, text=skill, variable=sProf).grid(row=(14+int(i/3)), column=2*(i%3))
-            Entry(self, textvariable = sMod, width = 3).grid(row=(14+int(i/3)), column=2*(i%3)+1)
+            Checkbutton(frame, text=skill, variable=sProf).grid(row=(14+int(i/3)), column=2*(i%3))
+            Entry(frame, textvariable = sMod, width = 3).grid(row=(14+int(i/3)), column=2*(i%3)+1)
             profs.append(sProf)
             skillMods.append(sMod)
 
@@ -255,10 +259,18 @@ class CharacterManage(Toplevel):
             sheet.close()
 
             
-        btnSave = Button(self, text ="Save")
+        btnSave = Button(frame, text ="Save")
         btnSave.bind("<Button>", lambda e: saveToCsv())
         btnSave.grid(row=2, column=9, padx = 2, pady = 2)
 
-        btnLoad = Button(self, text ="Load")
+        btnLoad = Button(frame, text ="Load")
         btnLoad.bind("<Button>", lambda e: loadFromCsv())
         btnLoad.grid(row=2, column=10, padx = 2, pady = 2)
+
+        new_frame = Frame(self)
+        new_frame.pack()
+
+##        name_label = Label(new_frame, text ="Loadout")
+##        name_label.grid(row=1, column=0, padx = 2, pady = 2)
+##        name_entry = OptionMenu(new_frame, )
+##        name_entry.grid(row=1, column=1, padx = 2, pady = 2)

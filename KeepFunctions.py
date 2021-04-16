@@ -137,6 +137,7 @@ def readTupleCSV2(filename):
     items[-1] = items[-1].replace("\n", '') ## remove garbage from back of string
     return items
 
+
 ## returns one item from a coma seperatied list
 def selectFromList(items):  
     return items[randint(0,len(items)-1)]
