@@ -17,6 +17,14 @@ class SpellManager(Toplevel):
         self.title("Spell Manager") 
         self.geometry("800x600")
 
+        # set lable font
+        lblFont = tkFont.Font(family='Helvetica', size=24, weight=tkFont.BOLD)
+        btnFont = tkFont.Font(family='Helvetica', size=14, weight=tkFont.BOLD)
+
+        # sets bacckground color
+        self.configure(background=BgColor)
+
+
         spells = readTupleCSV2("./CSVs/Spells.txt")
         spells_ = []
         spell_list = []
@@ -67,7 +75,7 @@ class SpellManager(Toplevel):
         def Add_slots():
             slots[level.get()] = int(slot_holder.get())
 
-        btnSlots = Button(frame, text ="Add Slots")
+        btnSlots = Button(frame, bg=lblColor, fg="white smoke", text ="Add Slots")
         btnSlots.bind("<Button>", lambda e: Add_slots())
         btnSlots.grid(row=1, column=4, padx = 2, pady = 2)
 
@@ -89,17 +97,20 @@ class SpellManager(Toplevel):
         spell_level_label = Label(frame, text ="Level")
         spell_level_label.grid(row=2, column=2, padx = 2, pady = 2)
         spell_level_entry = OptionMenu(frame, spell_level, *levels) ## field for entry
+        spell_level_entry.config(bg=lblColor, fg = 'white smoke')
         spell_level_entry.grid(row=2, column=3, padx = 2, pady = 2)
 
         School_label = Label(frame, text ="School")
         School_label.grid(row=2, column=4, padx = 2, pady = 2)
         School_entry = OptionMenu(frame, school, *schools)
+        School_entry.config(bg=lblColor, fg = 'white smoke')
         School_entry.grid(row=2, column=5, padx = 2, pady = 2)
 
         selected_spell = StringVar()
         selected_spell.set(sorted_spells[0])
 
         spell_list_entry = OptionMenu(frame, selected_spell, *sorted_spells) ## field for entry
+        spell_list_entry.config(bg=lblColor, fg = 'white smoke')
         spell_list_entry.grid(row=2, column=10, padx = 2, pady = 2)
 
         spell_loadout_label = Label(output_frame, text = "")
@@ -118,6 +129,7 @@ class SpellManager(Toplevel):
                      
                     spell_list_entry.destroy()
                     spell_list_entry = OptionMenu(frame, selected_spell, *sorted_spells) ## field for entry
+                    spell_list_entry.config(bg=lblColor, fg = 'white smoke')
                     spell_list_entry.grid(row=2, column=10, padx = 2, pady = 2)
                      
 
@@ -131,11 +143,11 @@ class SpellManager(Toplevel):
             spell_loadout_label.grid(row=0, column=0, padx = 2, pady = 2)
             
 
-        btnSearch = Button(frame, text ="Search")
+        btnSearch = Button(frame, bg=lblColor, fg="white smoke", text ="Search")
         btnSearch.bind("<Button>", lambda e: Spell_Search(spell_list_entry))
         btnSearch.grid(row=2, column=9, padx = 2, pady = 2)
         
-        btnAddSpell = Button(frame, text ="Add Spell")
+        btnAddSpell = Button(frame, bg=lblColor, fg="white smoke", text ="Add Spell")
         btnAddSpell.bind("<Button>", lambda e: Add_Spell(selected_spell, spell_loadout_label))
         btnAddSpell.grid(row=2, column=11, padx = 2, pady = 2)
 
@@ -184,20 +196,20 @@ class SpellManager(Toplevel):
             return output
 
         def Save_Loadout(output):
-            sheet = open("./Sheets/" + name.get() + "Spells.txt", "w") ## writes output to file "name.txt"
+            sheet = open("./Sheets/SpellLoadouts/" + name.get() + "Spells.txt", "w") ## writes output to file "name.txt"
             sheet.write(output)
             sheet.close()
 
-        btnSave = Button(frame, text ="Save Loadout")
+        btnSave = Button(frame, bg=lblColor, fg="white smoke", text ="Save Loadout")
         btnSave.bind("<Button>", lambda e: Save_Loadout(format_output(name.get(), spell_list)))
         btnSave.grid(row=3, column=1, padx = 2, pady = 2)
 
-        btnLoad = Button(frame, text ="Load Loadout")
+        btnLoad = Button(frame, bg=lblColor, fg="white smoke", text ="Load Loadout")
         btnLoad.bind("<Button>", lambda e: display_loadout(name.get(), spell_loadout_label))
         btnLoad.grid(row=3, column=2, padx = 2, pady = 2)
 
         def display_loadout(LoadoutName, spell_loadout_label):
-            sheet = open("./Sheets/" + LoadoutName + "Spells.txt", "r")
+            sheet = open("./Sheets/SpellLoadouts/" + LoadoutName + "Spells.txt", "r")
             output = sheet.read()
             sheet.close()
             spell_loadout_label.destroy()
