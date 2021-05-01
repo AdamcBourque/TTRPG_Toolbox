@@ -12,6 +12,7 @@ from tkinter import filedialog
 from Spell import *
 from Weapon import *
 from os import listdir
+from math import *
 
 
 
@@ -22,6 +23,7 @@ from os import listdir
 
 BgColor = "grey19"
 lblColor = "grey35"
+
 ##fontColor = "pink"
 
 ##----------------------------------------------------------------------------------------------------------------------------------

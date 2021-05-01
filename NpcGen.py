@@ -21,9 +21,9 @@ class NpcGen(Toplevel):
         nTraits = readCSV("./CSVs/NegativeTraits.txt")
         pNums = [0]
         nNums = [0]
-        for i in range (len(pTraits)):
+        for i in range (0,5):
             pNums.append(i+1)
-        for i in range (len(nTraits)):
+        for i in range (0,5):
             nNums.append(i+1)
         
         Types = StringVar()  ## currently selected NPC type

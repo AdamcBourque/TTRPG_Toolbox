@@ -24,6 +24,7 @@ from SpellManager import *
         
 # creates a Tk() object 
 master = Tk()
+master.title("The Keep")
 
 # set lable font
 lblFont = tkFont.Font(family='Helvetica', size=24, weight=tkFont.BOLD)

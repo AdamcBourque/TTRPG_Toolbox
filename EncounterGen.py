@@ -57,24 +57,52 @@ class EncounterGen(Toplevel):
         
         def GenEncounter():
             Enemies = []
+            Master = readTupleCSV2("./CSVs/EncountersMaster.txt")
+            final_drops = []
+
+            
+            cap = 30
+            floor = 0
+
             if (difficulty.get() == "Non-Combatant"):
-                Enemies += readTupleCSV2("./CSVs/Enemies/HumanoidNonCombatants.txt")
+                floor = 0
+                cap = 2
             elif (difficulty.get() == "Fodder"):
-                Enemies += readTupleCSV2("./CSVs/Enemies/HumanoidFodder.txt")
+                floor = 2
+                cap = 4
             elif (difficulty.get() == "Tough_Guys"):
-                Enemies += readTupleCSV2("./CSVs/Enemies/HumanoidToughGuys.txt")
+                floor = 4
+                cap = 8
             elif (difficulty.get() == "Mid_Bosses"):
-                Enemies += readTupleCSV2("./CSVs/Enemies/HumanoidMidBosses.txt")
+                floor = 8
+                cap = 17
             elif (difficulty.get() == "Bosses"):
-                Enemies += readTupleCSV2("./CSVs/Enemies/HumanoidBosses.txt")
+                floor = 17
+                cap = 30
+                
+            for i in range (0, len(Master)):
+                Master[i] = Master[i].replace("(", "")
+                temp = Master[i].split(",")
+                Cr = int(temp[-2])
+            
 
-            for i in range (0, len(Enemies)):
-                Enemies[i] = Enemies[i].replace("(", "")
-                temp = Enemies[i].split(",")
-                temp_to_string = temp[0] + "  CR: " + temp[1] +  "  Source Book: " + temp[2]
-                Enemies[i] = temp_to_string
+                if (Cr >= floor and Cr <= cap):
+                    Enemies.append([temp[0],temp[-1],temp[-2]])
+                
+                
+            encounter = selectFromList(Enemies)
+            encounter_string = encounter[0] + " CR: " + encounter[2] + " Creature Type: " + encounter[1]
 
-            Label_Encounter.config(text = selectFromList(Enemies)) 
+            Drops = readTupleCSV2("./CSVs/Loot/" + encounter[1].replace(')','') + "Loot.txt")
+
+            for i in range (0, len(Drops)):
+                Drops[i] = Drops[i].replace("(", "")
+                temp = Drops[i].split(",")
+                rarity = temp[0]
+                item = temp[1]
+                final_drops.append("Drops: " + item)
+
+            Label_Encounter.config(text = encounter_string + '\n' + selectFromList(final_drops)) 
 
         btnLoad = Button(self, text ="Load Map Data")
         btnLoad.bind("<Button>", lambda e: loadFromCsv())
