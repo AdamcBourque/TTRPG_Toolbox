@@ -6,59 +6,74 @@
 
 from KeepFunctions import *
 
+terrains = []
+
 class EncounterGen(Toplevel): 
       
-    def __init__(self, master = None): 
+    def __init__(self, Terrain, Diff, Quant):
           
-        super().__init__(master = master) 
+        super().__init__() 
         self.title("Encounter Generator") 
         self.geometry("800x400")
+
+        global terrains
 
         monsterTypes = ["Humanoid","..."]
 
         terrains = readCSV("./CSVs/TerrainTypes.txt")
+        print(terrains[0])
         
         terrainTypes = StringVar()
         terrainTypes.set(terrains[0])
 
+        frame = Frame(self)
+        frame.pack()
+
+        output_frame = Frame(self)
+        output_frame.pack()
+
         difficulties = ["Non-Combatant", "Fodder", "Tough_Guys", "Mid_Bosses", "Bosses"]
+        mobs = [1,2,3,4,5,6]
         
         difficulty = StringVar()
         difficulty.set(difficulties[0])
 
-        maps = listdir("./MapData")
-
-        map_name = StringVar()
-        map_name.set(maps[0])
-
-        map_name_label = Label(self, text ="Map Name")
-        map_name_label.grid(row=1, column=0, padx = 2, pady = 2)
-        map_name_entry = OptionMenu(self, map_name, *maps)
-        map_name_entry.grid(row=1, column=1, padx = 2, pady = 2)
-        
-        terrains_label = Label(self, text ="Terrain")
+        terrains_label = Label(frame, text ="Terrain")
         terrains_label.grid(row=1, column=3, padx = 2, pady = 2)
-        terrains_entry = OptionMenu(self, terrainTypes, *terrains) ## field for entry
+        terrains_entry = OptionMenu(frame, terrainTypes, *terrains) ## field for entry
         terrains_entry.grid(row=1, column=4, padx = 2, pady = 2)
 
-        dif_label = Label(self, text ="Difficulty")
+        dif_label = Label(frame, text ="Difficulty")
         dif_label.grid(row=1, column=5, padx = 2, pady = 2)
-        dif_entry = OptionMenu(self, difficulty, *difficulties) ## field for entry
+        dif_entry = OptionMenu(frame, difficulty, *difficulties) ## field for entry
         dif_entry.grid(row=1, column=6, padx = 2, pady = 2)
 
-        Label_Encounter = Label(self, text = "")
-        Label_Encounter.grid(row=3, column=1, padx = 2, pady = 2)
+        Label_Encounter = Label(output_frame, text = "")
+        Label_Encounter.grid(row=0, column=0, padx = 2, pady = 2)
 
-        def loadFromCsv():
-            filename = filedialog.askopenfilename(initialdir = "./MapData", title = "Select a File", filetypes = (("Text", "*.txt*"), ("all files",  "*.*")))
-            data = readCSV(filename)  ## reads in the data frome the csv selected above
-            terrainTypes.set(data[1])
+        number_enemies = StringVar()
+        number_enemies.set(mobs[0])
 
+        number_enemies_label = Label(frame, text ="Number of Enemies")
+        number_enemies_label.grid(row=1, column=7, padx = 2, pady = 2)
+        number_enemies_entry = OptionMenu(frame, number_enemies, *mobs) ## field for entry
+        number_enemies_entry.grid(row=1, column=8, padx = 2, pady = 2)
+        
+
+        def loadParams():
+            if (Terrain != "Keep"):
+                terrainTypes.set(Terrain)
+                difficulty.set(Diff)
+                number_enemies.set(Quant)
+                GenEncounter()
         
         def GenEncounter():
+            global terrains
+            terrains[0] = terrains[0].replace("\ufeff", '')
             Enemies = []
             Master = readTupleCSV2("./CSVs/EncountersMaster.txt")
             final_drops = []
+            terrain_check = terrains.index(terrainTypes.get()) + 1
 
             
             cap = 30
@@ -83,31 +98,31 @@ class EncounterGen(Toplevel):
             for i in range (0, len(Master)):
                 Master[i] = Master[i].replace("(", "")
                 temp = Master[i].split(",")
-                Cr = int(temp[-2])
-            
+                Cr = float(temp[-2])
 
-                if (Cr >= floor and Cr <= cap):
+                if (Cr >= floor and Cr <= cap and int(temp[terrain_check]) == 1):
                     Enemies.append([temp[0],temp[-1],temp[-2]])
                 
+            output = ''
+            for i in range (0,int(number_enemies.get())):
+                encounter = selectFromList(Enemies)
+                encounter_string = encounter[0] + " CR: " + encounter[2] + " Creature Type: " + encounter[1]
+
+                Drops = readTupleCSV2("./CSVs/Loot/" + encounter[1].replace(')','') + "Loot.txt")
+
+                for j in range (0, len(Drops)):
+                    Drops[j] = Drops[j].replace("(", "")
+                    temp = Drops[j].split(",")
+                    rarity = temp[0]
+                    item = temp[1]
+                    final_drops.append("Drops: " + item)
+                    
+                output += encounter_string + '\n' + selectFromList(final_drops) + '\n'
                 
-            encounter = selectFromList(Enemies)
-            encounter_string = encounter[0] + " CR: " + encounter[2] + " Creature Type: " + encounter[1]
+            Label_Encounter.config(text = output) 
 
-            Drops = readTupleCSV2("./CSVs/Loot/" + encounter[1].replace(')','') + "Loot.txt")
-
-            for i in range (0, len(Drops)):
-                Drops[i] = Drops[i].replace("(", "")
-                temp = Drops[i].split(",")
-                rarity = temp[0]
-                item = temp[1]
-                final_drops.append("Drops: " + item)
-
-            Label_Encounter.config(text = encounter_string + '\n' + selectFromList(final_drops)) 
-
-        btnLoad = Button(self, text ="Load Map Data")
-        btnLoad.bind("<Button>", lambda e: loadFromCsv())
-        btnLoad.grid(row=1, column=7, padx = 2, pady = 2)
-
-        btnGen = Button(self, text ="Generate")
+        btnGen = Button(frame, text ="Generate")
         btnGen.bind("<Button>", lambda e: GenEncounter())
-        btnGen.grid(row=2, column=7, padx = 2, pady = 2)
+        btnGen.grid(row=2, column=9, padx = 2, pady = 2)
+
+        loadParams()

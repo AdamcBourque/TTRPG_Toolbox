@@ -50,22 +50,25 @@ class SpellManager(Toplevel):
 
 
         frame = Frame(self)
+        frame.config(background = BgColor)
         frame.pack()
 
         output_frame = Frame(self)
+        output_frame.config(background = BgColor)
         output_frame.pack()
         
-        name_label = Label(frame, text ="Name")
+        name_label = Label(frame, fg = "white smoke", background = lblColor, text ="Name")
         name_label.grid(row=1, column=0, padx = 2, pady = 2)
         name_entry = Entry(frame, textvariable=name) ## field for entry
         name_entry.grid(row=1, column=1, padx = 2, pady = 2)
 
-        level_label = Label(frame, text ="Slot Level")
+        level_label = Label(frame, fg = "white smoke", background = lblColor, text ="Slot Level")
         level_label.grid(row=1, column=2, padx = 2, pady = 2)
         level_entry = OptionMenu(frame, level, *levels) ## field for entry
+        level_entry.config(bg=lblColor, fg = 'white smoke')
         level_entry.grid(row=1, column=3, padx = 2, pady = 2)
 
-        level_label = Label(frame, text ="Spell Slots")
+        level_label = Label(frame, fg = "white smoke", background = lblColor, text ="Spell Slots")
         level_label.grid(row=1, column=4, padx = 2, pady = 2)
         level_entry = Entry(frame, textvariable=slot_holder)
         level_entry.grid(row=1, column=5, padx = 2, pady = 2)
@@ -89,18 +92,18 @@ class SpellManager(Toplevel):
         cast_time.set("All")
         
 
-        spell_name_label = Label(frame, text ="Name")
+        spell_name_label = Label(frame, fg = "white smoke", background = lblColor, text ="Name")
         spell_name_label.grid(row=2, column=0, padx = 2, pady = 2)
         spell_name_entry = Entry(frame, textvariable = spell_name) ## field for entry
         spell_name_entry.grid(row=2, column=1, padx = 2, pady = 2)
 
-        spell_level_label = Label(frame, text ="Level")
+        spell_level_label = Label(frame, fg = "white smoke", background = lblColor, text ="Level")
         spell_level_label.grid(row=2, column=2, padx = 2, pady = 2)
         spell_level_entry = OptionMenu(frame, spell_level, *levels) ## field for entry
         spell_level_entry.config(bg=lblColor, fg = 'white smoke')
         spell_level_entry.grid(row=2, column=3, padx = 2, pady = 2)
 
-        School_label = Label(frame, text ="School")
+        School_label = Label(frame, fg = "white smoke", background = lblColor, text ="School")
         School_label.grid(row=2, column=4, padx = 2, pady = 2)
         School_entry = OptionMenu(frame, school, *schools)
         School_entry.config(bg=lblColor, fg = 'white smoke')
@@ -118,6 +121,8 @@ class SpellManager(Toplevel):
         def Spell_Search(spell_list_entry):
             global sorted_spells
             sorted_spells = ["Select Spell"]
+            if (spell_name.get() == ""):
+                spell_name.set("All Spells")
             
             for i in spells_:
                 if (((spell_name.get() == "All Spells") or (i.name == spell_name.get())) and
@@ -215,5 +220,25 @@ class SpellManager(Toplevel):
             spell_loadout_label.destroy()
             spell_loadout_label = Label(output_frame, text = output)
             spell_loadout_label.grid(row=0, column=0, padx = 2, pady = 2)
+
+        def prev_spell():
             
+            spell_viewer = Toplevel(self)
+            spell_viewer.title(spell_name.get())
+            spell_viewer.geometry("400x400")
+
+            spell_viewer.configure(background=BgColor)
+
+            spell_frame = Frame(spell_viewer)
+            spell_frame.config()
+            spell_frame.pack()
+
+            for i in spells_:
+                if (str(i.name) == selected_spell.get()):
+                    lbl = Label(spell_frame, fg = "white smoke", background = BgColor, justify = "left", text = i.display())
+                    lbl.pack()
+
+        btnPrev = Button(frame, bg=lblColor, fg="white smoke", text ="Preview Spell")
+        btnPrev.bind("<Button>", lambda e: prev_spell())
+        btnPrev.grid(row=3, column=9, padx = 2, pady = 2)
             

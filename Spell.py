@@ -13,7 +13,7 @@ class Spell:
   action = ""
   components = (0,0,"")
   duration = ""
-  spell_range = 0
+  spell_range = ""
   ritual = 0
   description = ""
   
@@ -30,5 +30,29 @@ class Spell:
     self.description = spell[10]
 
 
-  def display():
-    print("Not Implimented")
+  def display(self):
+    output = ''
+    output += self.name + '\n'
+    output += "Level " + str(self.lvl) + " "
+    output += self.school + " Spell" + '\n'
+    output += "Casting Time: " + self.action + '\n'
+    output += "Duration: " + self.duration + '\n'
+    output += "Range: " + self.spell_range + '\n'
+    if (self.ritual == 1):
+      output += "Ritual" + '\n'
+
+    def split(word):
+      return [char for char in word]
+    
+    words = split(self.description)
+    count = 0
+    output += '\n' + '\n'
+    for i in words:
+      count = count % 70 + 1
+      if (i == '\n'):
+        count = 0
+      output += i
+      if (count == 70):
+        output += '-' + '\n'
+
+    return output

@@ -31,7 +31,7 @@ class OverlandManage(Toplevel):
         chance = StringVar()
           
         super().__init__(master = master) 
-        self.title("New Window") 
+        self.title("Overland Travel Manager") 
         self.geometry("800x600")
         
         features = readCSV("./CSVs/TerrainTypes.txt") ## temp
@@ -55,6 +55,10 @@ class OverlandManage(Toplevel):
 
         difficulty = StringVar()
         difficulty.set(difficulties[0])
+
+        quant = StringVar()
+        quant.set("1")
+        mobs = [1,2,3,4,5,6]
 
         size = IntVar()
         size.set(25)
@@ -86,10 +90,12 @@ class OverlandManage(Toplevel):
         btnCheck.grid(row=2, column=5, padx = 2, pady = 2)
 
         def check():
+            global formatter
             num = randint(0,100)
-            print(data[2+4*int(hex_id.get())])
-            if (num < int(data[2+4*int(hex_id.get())])):
-                EncounterGen(self)
+            print(str(int(hex_id.get())))
+            tile = formatter[int(hex_id.get())]
+            if (num < int(data[2+5*int(hex_id.get())])):
+                EncounterGen(tile[1], tile[2], tile[3])
             else:
                 print("no")
 
@@ -116,7 +122,7 @@ class OverlandManage(Toplevel):
 
             hex_img = PIL.Image.open("hex.png") # hex tile
 
-            first_image = PIL.Image.open("./Maps/" + map_name.get() + ".png") # The map
+            first_image = PIL.Image.open("./Maps/" + map_name.get()) # The map
 
             sizeX = first_image.size[0]
             sizeY = first_image.size[1]
@@ -140,10 +146,10 @@ class OverlandManage(Toplevel):
                 
                     draw.text((x, y), str(text))
 
-                    formatter.append([text, "Type" , "Challenge Level", 0])
+                    formatter.append([text, "Type" , "Challenge Level", "Enemies", 0])
 
             first_image.show()
-            first_image.save("./Maps/" + map_name.get() + ".png")
+            first_image.save("./Maps/HexMaps/" + map_name.get())
             btnFormatter.grid(row=2, column=7, padx = 2, pady = 2)
 
         btnOverlay = Button(frame, text ="Generate")
@@ -151,7 +157,7 @@ class OverlandManage(Toplevel):
         btnOverlay.grid(row=1, column=9, padx = 2, pady = 2)
 
         btnEncounter = Button(frame, text ="Generate Encounter")
-        btnEncounter.bind("<Button>", lambda e: EncounterGen(self))
+        btnEncounter.bind("<Button>", lambda e: EncounterGen("Keep", 0, 0))
         btnEncounter.grid(row=2, column=9, padx = 2, pady = 2)
 
         def submit(name, start, end):
@@ -160,7 +166,8 @@ class OverlandManage(Toplevel):
             for i in range (start-1, end):
                 formatter[i][1] = terrainTypes.get().replace("\ufeff", "")
                 formatter[i][2] = difficulty.get()
-                formatter[i][3] = chance.get()
+                formatter[i][3] = quant.get()
+                formatter[i][4] = chance.get()
                 
             saveToCsv(formatter)
             
@@ -169,15 +176,12 @@ class OverlandManage(Toplevel):
             global terrains, text, formatter
             
             if (len(formatter) == 0):
-                for i in range (0,text):
-                    formatter.append([text, "Type" , "Challenge Level", 0])
+                for i in range (0,int(text)):
+                    formatter.append([i+1, "Type" , "Challenge Level", "Enemies", 0])
             
             formatterT = Toplevel(self)
-            formatterT.title("Test")
-            formatterT.geometry("750x300")
-
-            terrainTypes = StringVar()
-            terrainTypes.set(terrains[0])
+            formatterT.title("Tile Formatter")
+            formatterT.geometry("800x300")
 
             terrain_label = Label(formatterT, text ="Terrain Type")
             terrain_label.grid(row=1, column=3, padx = 2, pady = 2)
@@ -189,10 +193,15 @@ class OverlandManage(Toplevel):
             dif_entry = OptionMenu(formatterT, difficulty, *difficulties) ## field for entry
             dif_entry.grid(row=1, column=6, padx = 2, pady = 2)
 
+            number_enemies_label = Label(formatterT, text ="Number of Enemies")
+            number_enemies_label.grid(row=1, column=7, padx = 2, pady = 2)
+            number_enemies_entry = OptionMenu(formatterT, quant, *mobs) ## field for entry
+            number_enemies_entry.grid(row=1, column=8, padx = 2, pady = 2)
+
             chance_label = Label(formatterT, text ="% Chance")
-            chance_label.grid(row=1, column=7, padx = 2, pady = 2)
+            chance_label.grid(row=1, column=9, padx = 2, pady = 2)
             chance_entry = Entry(formatterT, textvariable = chance) ## field for entry
-            chance_entry.grid(row=1, column=8, padx = 2, pady = 2)
+            chance_entry.grid(row=1, column=10, padx = 2, pady = 2)
 
             range_start = IntVar()
             range_start.set(1)
@@ -211,7 +220,7 @@ class OverlandManage(Toplevel):
 
             btnSubmit = Button(formatterT, text ="Submit")
             btnSubmit.bind("<Button>", lambda e: submit(map_name, range_start.get(), range_end.get()))
-            btnSubmit.grid(row=1, column=9, padx = 2, pady = 2)
+            btnSubmit.grid(row=2, column=10, padx = 2, pady = 2)
 
         btnFormatter = Button(frame, text ="Format Tiles")
         btnFormatter.bind("<Button>", lambda e: tile_formatter(map_name.get()))
@@ -223,9 +232,10 @@ class OverlandManage(Toplevel):
             map_name.set(data[0])
             terrainTypes.set(data[1])
             text = data[2]
+            print("The fucked part: " + data[3])
             formatter = []
-            for i in range (0,int(text)):
-                formatter.append([i, "Type" , "Challenge Level", 0])
+            for i in range (0,int(text),5):
+                formatter.append([i/5+1, data[4+i] , data[5+i], data[6+i], data[7+i]])
             btnFormatter.grid(row=2, column=7, padx = 2, pady = 2)
 
         def saveToCsv(formatting):
