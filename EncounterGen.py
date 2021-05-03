@@ -16,6 +16,13 @@ class EncounterGen(Toplevel):
         self.title("Encounter Generator") 
         self.geometry("800x400")
 
+        # set lable font
+        lblFont = tkFont.Font(family='Helvetica', size=24, weight=tkFont.BOLD)
+        btnFont = tkFont.Font(family='Helvetica', size=14, weight=tkFont.BOLD)
+
+        # sets bacckground color
+        self.configure(background=BgColor)
+
         global terrains
 
         monsterTypes = ["Humanoid","..."]
@@ -29,9 +36,11 @@ class EncounterGen(Toplevel):
         terrainTypes.set(terrains[0])
 
         frame = Frame(self)
+        frame.config(bg = BgColor)
         frame.pack()
 
         output_frame = Frame(self)
+        output_frame.config(bg = BgColor)
         output_frame.pack()
 
         difficulties = ["Non-Combatant", "Fodder", "Tough_Guys", "Mid_Bosses", "Bosses"]
@@ -40,25 +49,28 @@ class EncounterGen(Toplevel):
         difficulty = StringVar()
         difficulty.set(difficulties[0])
 
-        terrains_label = Label(frame, text ="Terrain")
+        terrains_label = Label(frame, fg="white smoke", background=BgColor, text ="Terrain")
         terrains_label.grid(row=1, column=3, padx = 2, pady = 2)
         terrains_entry = OptionMenu(frame, terrainTypes, *terrains) ## field for entry
+        terrains_entry.config(bg = lblColor, fg = "white smoke")
         terrains_entry.grid(row=1, column=4, padx = 2, pady = 2)
 
-        dif_label = Label(frame, text ="Difficulty")
+        dif_label = Label(frame, fg="white smoke", background=BgColor, text ="Difficulty")
         dif_label.grid(row=1, column=5, padx = 2, pady = 2)
         dif_entry = OptionMenu(frame, difficulty, *difficulties) ## field for entry
+        dif_entry.config(bg = lblColor, fg = "white smoke")
         dif_entry.grid(row=1, column=6, padx = 2, pady = 2)
 
-        Label_Encounter = Label(output_frame, text = "")
+        Label_Encounter = Label(output_frame, fg="white smoke", background=BgColor, text = "")
         Label_Encounter.grid(row=0, column=0, padx = 2, pady = 2)
 
         number_enemies = StringVar()
         number_enemies.set(mobs[0])
 
-        number_enemies_label = Label(frame, text ="Number of Enemies")
+        number_enemies_label = Label(frame, fg="white smoke", background=BgColor, text ="Number of Enemies")
         number_enemies_label.grid(row=1, column=7, padx = 2, pady = 2)
         number_enemies_entry = OptionMenu(frame, number_enemies, *mobs) ## field for entry
+        number_enemies_entry.config(bg = lblColor, fg = "white smoke")
         number_enemies_entry.grid(row=1, column=8, padx = 2, pady = 2)
         
 
@@ -163,7 +175,7 @@ class EncounterGen(Toplevel):
                 
             Label_Encounter.config(text = output) 
 
-        btnGen = Button(frame, text ="Generate")
+        btnGen = Button(frame, fg="white smoke", background=lblColor, text ="Generate")
         btnGen.bind("<Button>", lambda e: GenEncounter())
         btnGen.grid(row=2, column=9, padx = 2, pady = 2)
 
