@@ -67,7 +67,8 @@ class EncounterGen(Toplevel):
                 terrainTypes.set(Terrain)
                 difficulty.set(Diff)
                 number_enemies.set(Quant)
-                GenEncounter()
+                if (Terrain != "Type"):
+                    GenEncounter()
         
         def GenEncounter():
             global terrains

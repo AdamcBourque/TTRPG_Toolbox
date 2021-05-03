@@ -164,6 +164,7 @@ class OverlandManage(Toplevel):
             first_image.save("./Maps/HexMaps/" + map_name.get())
             btnFormatter.grid(row=2, column=7, padx = 2, pady = 2)
 
+
         btnOverlay = Button(frame, text ="Generate")
         btnOverlay.bind("<Button>", lambda e: overlay())
         btnOverlay.grid(row=1, column=9, padx = 2, pady = 2)
@@ -262,7 +263,7 @@ class OverlandManage(Toplevel):
             sheet = open("./MapData/" + map_name.get().replace(".png", "") + ".txt", "w") ## writes output to file "name.txt"///////////////////
             output = output.replace('\ufeff', '')
             sheet.write(output)
-            data = readCSV("./MapData/" + map_name.get().replace(".png", "") + ".txt")
+            data = output.split(',')
             sheet.close()
             
 
