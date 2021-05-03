@@ -1,0 +1,1 @@
+(Square Yard of Cotton Cloth,C,5 SP),(Fine Clothes,R,15 GP),(Traveler’s Clothes,U,2 GP),(Common Clothes,C,5 SP),(Costume Clothes,U,5 GP),(Cold Weather Clothing,R,10 GP),(Cloak of Billowing,L,50 GP)

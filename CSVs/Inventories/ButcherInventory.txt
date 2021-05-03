@@ -1,0 +1,1 @@
+(Chunk of Meat,C,3 SP),(Chicken,C,5 CP),(Rabbit,C,2 SP),(Fish,C,8 CP),(Pork,C,5 SP),(Mutton,C,2 SP),(Beef,C,4 SP),(Ground Beef,U,6 SP),(Ox Meat,U,1 GP),(Smoked and Preserved Rations,U,8 SP),(Venison,U,1 GP),(Pheasant,R,3 GP),(Owlbear Meat,V,5 GP),(Roc Meat,V,10 GP),(Dragon Meat,L,25 GP),(Kraken Meat,L,30 GP)
