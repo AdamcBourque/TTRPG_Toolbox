@@ -63,7 +63,7 @@ class NpcGen(Toplevel):
             NegTrait = StringVar()
             fetched = ""
             temp = ""
-            NPC_Type = ("./CSVs/" + Types.get() + ".txt") ## file path of inventory csv for selected type
+            NPC_Type = ("./CSVs/NPCs/" + Types.get() + ".txt") ## file path of inventory csv for selected type
             npcs = readCSV(NPC_Type) ## list of npc possibilities
             temp += selectFromList(npcs)
             output.set(temp)

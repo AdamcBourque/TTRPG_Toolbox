@@ -37,7 +37,7 @@ class ShopInventory(Toplevel):
         def GenInventory(*args):
             fish = shopTypes.get()
             fish = fish.replace("\ufeff", '')
-            shop = ("./CSVs/" + fish + "Inventory.txt") ## file path of inventory csv for selected shop
+            shop = ("./CSVs/Inventories/" + fish + "Inventory.txt") ## file path of inventory csv for selected shop
             items = readTupleCSV(shop) ## list of Items
             rarity = {'C':75, 'U':50, 'R':25, 'V':10, 'L':1} ## rarity to quantity dictionary
             economic_multiplier = {"Wealthy":2.5, "Comfortable":1.5, "Modest":1, "Poor":.5, "Squalid":.25}
