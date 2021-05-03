@@ -22,6 +22,13 @@ class MusicManage(Toplevel):
         
         mixer.init()
 
+        # set lable font
+        lblFont = tkFont.Font(family='Helvetica', size=24, weight=tkFont.BOLD)
+        btnFont = tkFont.Font(family='Helvetica', size=14, weight=tkFont.BOLD)
+
+        # sets bacckground color
+        self.configure(background=BgColor)
+
         def PlayTrack(track, chan):
             global tracks
             global volumes
@@ -59,19 +66,19 @@ class MusicManage(Toplevel):
             label = Label(self, text = temp[-1])
             label.grid(row=num+1, column=0, padx = 2, pady = 2)
 
-            btnPlay = Button(self, text ="Play")
+            btnPlay = Button(self, text ="Play", fg="white smoke", background=lblColor)
             btnPlay.bind("<Button>", lambda e: PlayTrack(tracks[i], i))
             btnPlay.grid(row=i+1, column=1, padx = 2, pady = 2)
-
-            btnPause = Button(self, text ="Pause")
+            
+            btnPause = Button(self, text ="Pause", fg="white smoke", background=lblColor)
             btnPause.bind("<Button>", lambda e: PauseTrack(tracks[i], i))
             btnPause.grid(row=i+1, column=2, padx = 2, pady = 2)
 
-            btnUnPause = Button(self, text ="Resume")
+            btnUnPause = Button(self, text ="Resume", fg="white smoke", background=lblColor)
             btnUnPause.bind("<Button>", lambda e: UnPauseTrack(tracks[i], i))
             btnUnPause.grid(row=i+1, column=3, padx = 2, pady = 2)
 
-            btnStop = Button(self, text ="Stop")
+            btnStop = Button(self, text ="Stop", fg="white smoke", background=lblColor)
             btnStop.bind("<Button>", lambda e: StopTrack(tracks[i], i))
             btnStop.grid(row=i+1, column=4, padx = 2, pady = 2)
 
@@ -80,9 +87,9 @@ class MusicManage(Toplevel):
             
             num += 1
 
-        volSlide = Scale(self, orient = HORIZONTAL, from_=0, to=1, resolution=0.02, command = change_vol)
+        volSlide = Scale(self, orient = HORIZONTAL, from_=0, to=1, resolution=0.02, command = change_vol, fg="white smoke", background=lblColor)
           
-        btnAdd = Button(self, text ="Add Track")
+        btnAdd = Button(self, text ="Add Track",fg="white smoke", background=lblColor)
         btnAdd.bind("<Button>", lambda e: NewTrack())
         btnAdd.grid(row=0, column=0, padx = 2, pady = 2)
 

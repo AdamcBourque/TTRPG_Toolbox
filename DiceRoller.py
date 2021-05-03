@@ -13,6 +13,13 @@ class DiceRoller(Toplevel):
         super().__init__(master = master) 
         self.title("Dice Roller") 
         self.geometry("200x200")
+
+        # set lable font
+        lblFont = tkFont.Font(family='Helvetica', size=24, weight=tkFont.BOLD)
+        btnFont = tkFont.Font(family='Helvetica', size=14, weight=tkFont.BOLD)
+
+        # sets bacckground color
+        self.configure(background=BgColor)
         
         result = StringVar() ## output
         dice = StringVar() ## input
@@ -23,10 +30,10 @@ class DiceRoller(Toplevel):
         text_entry = Entry(self, textvariable=dice) ## field for dice entry
         text_entry.pack()
         
-        button1 = Button(self, text="Roll", command=writer) ## button to roll
+        button1 = Button(self, fg="white smoke", background=lblColor, text="Roll", command=writer) ## button to roll
         button1.pack()
         
-        label = Label(self, textvariable = result) ## results label
+        label = Label(self, fg="white smoke", background=BgColor, textvariable = result) ## results label
         label.pack()
         
         
