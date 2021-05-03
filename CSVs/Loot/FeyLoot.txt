@@ -1,0 +1,1 @@
+(C,1 Ration worth of berries),(C,Nothing salvageable),(U,Fey Trinket 5 GP),(R,Rare herbal substance 20 GP),(C,Common herbal substance 5 SP),(U,Uncommon herbal substance 2 GP),(L,Portion of thought to be extinct plant)

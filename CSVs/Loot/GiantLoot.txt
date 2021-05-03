@@ -1,0 +1,1 @@
+(C,Giant Ration worth 10 Normal Ration),(C,Nothing Salvageable),(U,Giant Toe),(U,Giant Teeth),(U,Giant Fingers),(R,Giant Weapon),(R,Giant Armor),(V,Oversized Tool),(L,Giant Coin worth 500 gold)

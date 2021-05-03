@@ -1,0 +1,1 @@
+(C,Nothing salvageable),(U,Organs of another creature worth 5 GP),(V,Rare creature organs worth 20 GP),(C,Monster’s hide worth 5 GP),(L,Blueprints for a magic item)

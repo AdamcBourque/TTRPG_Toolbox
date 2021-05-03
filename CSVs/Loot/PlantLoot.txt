@@ -1,0 +1,1 @@
+(C,Nothing salvageable),(C,5 SP worth of plant matter),(R,1 Day worth of rations foraged from corpse),(L,Rare bit of plant matter worth 50 GP)

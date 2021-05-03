@@ -1,0 +1,1 @@
+(C,Black Ichor),(L,Soul coin),(R,Desecrated holy object),(C,Nothing salvageable),(C,Ash),(U,Questionable ration worth of flesh)

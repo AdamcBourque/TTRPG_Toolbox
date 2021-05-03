@@ -1,0 +1,1 @@
+(R,Acid 5 GP),(C,Ooze),(C,Sludge),(C,Nothing salvageable)
