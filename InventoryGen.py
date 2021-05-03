@@ -9,8 +9,18 @@ from KeepFunctions import *
 class ShopInventory(Toplevel): 
       
     def __init__(self, master = None): 
+
+        
           
         super().__init__(master = master) 
+
+        # set label font
+        lblFont = tkFont.Font(family='Helvetica', size=24, weight=tkFont.BOLD)
+        btnFont = tkFont.Font(family='Helvetica', size=14, weight=tkFont.BOLD)
+
+        # sets background color
+        self.configure(background=BgColor)
+
         self.title("Shop Inventory Generator") 
         self.geometry("400x650")
         
@@ -22,17 +32,19 @@ class ShopInventory(Toplevel):
         shopTypes.set(shops[0])  
 
         opt = OptionMenu(self, shopTypes, *shops) ## drop down menu select
+        opt.config(fg="white smoke", background=lblColor)
         opt.pack()
 
         economic_level = StringVar()
         economic_level.set(economic_levels[2])
 
         eco_opt = OptionMenu(self, economic_level, *economic_levels) ## drop down menu select
+        eco_opt.config(fg="white smoke", background=lblColor)
         eco_opt.pack()
 
         output = StringVar()
         
-        label = Label(self, textvariable = output)
+        label = Label(self, fg="white smoke", background=BgColor, textvariable = output)
 
         def GenInventory(*args):
             fish = shopTypes.get()
@@ -63,5 +75,5 @@ class ShopInventory(Toplevel):
             output.set(string)
             label.pack()
             
-        button1 = Button(self, text="Generate", command=GenInventory) 
+        button1 = Button(self, fg="white smoke", background=lblColor, text="Generate", command=GenInventory) 
         button1.pack()

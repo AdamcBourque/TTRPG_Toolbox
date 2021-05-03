@@ -20,11 +20,11 @@ class StatusTracker(Toplevel):
         self.title("Status Tracker") 
         self.geometry("825x600")
 
-        # set lable font
+        # set label font
         lblFont = tkFont.Font(family='Helvetica', size=24, weight=tkFont.BOLD)
         btnFont = tkFont.Font(family='Helvetica', size=14, weight=tkFont.BOLD)
 
-        # sets bacckground color
+        # sets background color
         self.configure(background=BgColor)
 
         terrains = readCSV("./CSVs/TerrainTypes.txt")
