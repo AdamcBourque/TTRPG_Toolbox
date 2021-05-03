@@ -110,7 +110,8 @@ class OverlandManage(Toplevel):
             ## Size choice
             size_hex = size.get()
             global offCoord, text
-
+            text = 0
+            
             def generate_unit_hexagons(image_width, image_height):
                 """Generate coordinates for a tiling of unit hexagons."""
                 # Half the height of the hexagon
