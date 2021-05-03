@@ -16,6 +16,13 @@ class NpcGen(Toplevel):
         self.title("NPC Generator") 
         self.geometry("400x400")
 
+        # set label font
+        lblFont = tkFont.Font(family='Helvetica', size=24, weight=tkFont.BOLD)
+        btnFont = tkFont.Font(family='Helvetica', size=14, weight=tkFont.BOLD)
+
+        # sets background color
+        self.configure(background=BgColor)
+
         types = readCSV("./CSVs/npcTypes.txt") ## list of NPC types
         pTraits = readCSV("./CSVs/PositiveTraits.txt")
         nTraits = readCSV("./CSVs/NegativeTraits.txt")
@@ -35,26 +42,29 @@ class NpcGen(Toplevel):
         numN = StringVar() ## Number of negative traits
         numN.set(nNums[0])
 
-        labelType = Label(self, text = "NPC Type")
+        labelType = Label(self, fg="white smoke", background=BgColor, text = "NPC Type")
         labelType.pack()
         opType = OptionMenu(self, Types, *types) ## drop down menu select
+        opType.config(fg="white smoke", background=lblColor)
         opType.pack()
 
-        labelType = Label(self, text = "Positive traits")
+        labelType = Label(self, fg="white smoke", background=BgColor, text = "Positive traits")
         labelType.pack()
         optP = OptionMenu(self, numP, *pNums) ## drop down menu select
+        optP.config(fg="white smoke", background=lblColor)
         optP.pack()
 
-        labelN = Label(self, text = "Negative traits")
+        labelN = Label(self, fg="white smoke", background=BgColor, text = "Negative traits")
         labelN.pack()
         optN = OptionMenu(self, numN, *nNums) ## drop down menu select
+        optN.config(fg="white smoke", background=lblColor)
         optN.pack()
 
-        labelOutputType = Label(self, text = "")
+        labelOutputType = Label(self, fg="white smoke", background=BgColor, text = "")
         labelOutputType.pack()
-        labelOutputP = Label(self, text = "")
+        labelOutputP = Label(self, fg="white smoke", background=BgColor, text = "")
         labelOutputP.pack()
-        labelOutputN = Label(self, text = "")
+        labelOutputN = Label(self, fg="white smoke", background=BgColor, text = "")
         labelOutputN.pack()
 
         def NPC_Gen(*args):
@@ -101,6 +111,6 @@ class NpcGen(Toplevel):
             labelOutputN.config(text = "")
             
             
-        button1 = Button(self, text="Generate", command=NPC_Gen) ## button to run process 
+        button1 = Button(self, fg="white smoke", background=lblColor, text="Generate", command=NPC_Gen) ## button to run process 
         button1.pack()
 
