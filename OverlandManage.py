@@ -100,7 +100,11 @@ class OverlandManage(Toplevel):
             global formatter
             lbl_encounter.config(text = '')
             num = randint(0,100)
-            tile = formatter[int(hex_id.get())]
+            tile = formatter[int(hex_id.get())-1]
+            
+            
+            saveToCsv(formatter)
+            
             if (num < int(data[2+5*int(hex_id.get())])):
                 EncounterGen(tile[1], tile[2], tile[3])
             else:
@@ -109,7 +113,7 @@ class OverlandManage(Toplevel):
         def overlay():
             ## Size choice
             size_hex = size.get()
-            global offCoord, text
+            global offCoord, text, formatter
             text = 0
             
             def generate_unit_hexagons(image_width, image_height):
@@ -137,7 +141,7 @@ class OverlandManage(Toplevel):
 
             generate_unit_hexagons(sizeX/25, sizeY/25)
 
-            ##saveToCsv()
+            saveToCsv(formatter)
 
             for c in offCoord:
                 hex_img = hex_img.resize((size_hex,size_hex), resample=1) # size of hexes
@@ -239,15 +243,13 @@ class OverlandManage(Toplevel):
             map_name.set(data[0])
             terrainTypes.set(data[1])
             text = data[2]
-            print("The fucked part: " + data[3])
             formatter = []
             for i in range (0,int(text),5):
                 formatter.append([i/5+1, data[4+i] , data[5+i], data[6+i], data[7+i]])
             btnFormatter.grid(row=2, column=7, padx = 2, pady = 2)
 
         def saveToCsv(formatting):
-            global offCoord, data
-            global formatter
+            global offCoord, data, formatter
             output = ""  ## holds the fields in the form of a csv
             output += map_name.get() + ","
             output += terrainTypes.get() + ","
@@ -257,7 +259,7 @@ class OverlandManage(Toplevel):
                     output += str(i) + ","
             output.strip(",")
                 
-            sheet = open("./MapData/" + map_name.get().replace(".png", "") + ".txt", "w") ## writes output to file "name.txt" //////////////////////////////////////////////////
+            sheet = open("./MapData/" + map_name.get().replace(".png", "") + ".txt", "w") ## writes output to file "name.txt"///////////////////
             output = output.replace('\ufeff', '')
             sheet.write(output)
             data = readCSV("./MapData/" + map_name.get().replace(".png", "") + ".txt")
