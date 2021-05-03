@@ -18,7 +18,7 @@ class StatusTracker(Toplevel):
           
         super().__init__(master = master) 
         self.title("Status Tracker") 
-        self.geometry("800x600")
+        self.geometry("825x600")
 
         # set lable font
         lblFont = tkFont.Font(family='Helvetica', size=24, weight=tkFont.BOLD)
@@ -65,18 +65,22 @@ class StatusTracker(Toplevel):
         condition_name.set(conditions[0])
 
         condition_name_label = Label(frame, fg="white smoke", background=BgColor, text ="Condition")
-        condition_name_label.grid(row=1, column=3, padx = 2, pady = 2)
+        condition_name_label.grid(row=1, column=2, padx = 2, pady = 2)
         condition_name_entry = OptionMenu(frame, condition_name, *conditions) ## drop down menu select
         condition_name_entry.config(bg=lblColor, fg = 'white smoke')
-        condition_name_entry.grid(row=1, column=4, padx = 2, pady = 2)
+        condition_name_entry.grid(row=1, column=3, padx = 2, pady = 2)
 
         btnAfflict = Button(frame, fg="white smoke", background=lblColor, text ="Add Condition")
         btnAfflict.bind("<Button>", lambda e: add_condition())
-        btnAfflict.grid(row=1, column=5, padx = 2, pady = 2)
+        btnAfflict.grid(row=1, column=4, padx = 2, pady = 2)
 
         btnCure = Button(frame, fg="white smoke", background=lblColor, text ="Cure Condition")
         btnCure.bind("<Button>", lambda e: clear_condition(condition_name.get()))
-        btnCure.grid(row=1, column=6, padx = 2, pady = 2)
+        btnCure.grid(row=1, column=5, padx = 2, pady = 2)
+
+        btnReset = Button(frame, fg="white smoke", background=lblColor, text ="Reset")
+        btnReset.bind("<Button>", lambda e: reset())
+        btnReset.grid(row=1, column=6, padx = 2, pady = 2)
 
         btnLong = Button(frame, fg="white smoke", background=lblColor, text ="Long Rest")
         btnLong.bind("<Button>", lambda e: long_rest())
@@ -106,14 +110,9 @@ class StatusTracker(Toplevel):
         btnCon.bind("<Button>", lambda e: concentrate())
         btnCon.grid(row=2, column=6, padx = 2, pady = 2)
 
-        
-
-        def import_char():
-            temp = "not implemented"
 
         def long_rest():
             global action, bonus_action, reaction
-            char_conditions = []
             action = True
             bonus_action = True
             reaction = True
@@ -158,15 +157,16 @@ class StatusTracker(Toplevel):
             global action, bonus_action, reaction, concentration
             char_name.set("Your Character")
             condition_name.set(conditions[0])
-            spell_slots = []
-            other_resource = []
-            char_conditions = []
+            while(len(char_conditions) != 0):
+                char_conditions.remove(char_conditions[0])
             action = True
             bonus_action = True
             reaction = True
             concentration = False
             movement = 0
             economy()
+            conditions_label.config(text = '')
+            conditions_label.pack()
 
         def add_condition():
             has = False
@@ -192,12 +192,10 @@ class StatusTracker(Toplevel):
             temp = 0
             for i in char_conditions:
                 temp = conditions.index(i)
-                descript = condition_descriptions[temp].replace('*', "\n*")
-                output += i + ": " + descript + '\n'
+                descript = condition_descriptions[temp].replace('*', "\n\u2022 ")
+                output += i + '\n' + descript + '\n' + "---------------------------------------------------------------------------" + '\n'
             return output
 
-        def add_spell():
-            temp = "not implemented"
 
         def economy():
             global action, bonus_action, reaction
@@ -228,9 +226,14 @@ class StatusTracker(Toplevel):
 
 
         new_frame = Frame(self)
+        new_frame.config(background=BgColor)
         new_frame.pack()
 
         conditions_label = Label(new_frame, fg="white smoke", background=BgColor, text = cond_list)
+
+        div = '\n' + "============================================== CONDITIONS ==============================================" + '\n'
+        div_label = Label(new_frame, fg="white smoke", background=BgColor, text = div)
+        div_label.pack()
 
         
 

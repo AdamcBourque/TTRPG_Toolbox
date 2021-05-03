@@ -42,6 +42,9 @@ class OverlandManage(Toplevel):
         frame = Frame(self)
         frame.pack()
 
+        lbl_frame = Frame(self)
+        lbl_frame.pack()
+
         map_name = StringVar()
         map_name.set("New Map")
 
@@ -89,15 +92,19 @@ class OverlandManage(Toplevel):
         btnCheck.bind("<Button>", lambda e: check())
         btnCheck.grid(row=2, column=5, padx = 2, pady = 2)
 
+        lbl_encounter = Label(lbl_frame, text = '')
+        lbl_encounter.pack()
+        
+
         def check():
             global formatter
+            lbl_encounter.config(text = '')
             num = randint(0,100)
-            print(str(int(hex_id.get())))
             tile = formatter[int(hex_id.get())]
             if (num < int(data[2+5*int(hex_id.get())])):
                 EncounterGen(tile[1], tile[2], tile[3])
             else:
-                print("no")
+                lbl_encounter.config(text = "No encounter for this hex.")
 
         def overlay():
             ## Size choice
@@ -162,7 +169,6 @@ class OverlandManage(Toplevel):
 
         def submit(name, start, end):
             global formatter
-            print(len(formatter))
             for i in range (start-1, end):
                 formatter[i][1] = terrainTypes.get().replace("\ufeff", "")
                 formatter[i][2] = difficulty.get()

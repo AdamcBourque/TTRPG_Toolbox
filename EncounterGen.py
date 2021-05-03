@@ -21,6 +21,8 @@ class EncounterGen(Toplevel):
         monsterTypes = ["Humanoid","..."]
 
         terrains = readCSV("./CSVs/TerrainTypes.txt")
+        for q in terrains:
+            q.replace("\ufeff",'')
         print(terrains[0])
         
         terrainTypes = StringVar()
@@ -73,7 +75,7 @@ class EncounterGen(Toplevel):
             Enemies = []
             Master = readTupleCSV2("./CSVs/EncountersMaster.txt")
             final_drops = []
-            terrain_check = terrains.index(terrainTypes.get()) + 1
+            terrain_check = terrains.index(terrainTypes.get().replace("\ufeff",'')) + 1
 
             
             cap = 30
@@ -96,7 +98,7 @@ class EncounterGen(Toplevel):
                 cap = 30
                 
             for i in range (0, len(Master)):
-                Master[i] = Master[i].replace("(", "")
+                Master[i] = Master[i].replace("(", "").replace(")",'')
                 temp = Master[i].split(",")
                 Cr = float(temp[-2])
 
@@ -108,16 +110,55 @@ class EncounterGen(Toplevel):
                 encounter = selectFromList(Enemies)
                 encounter_string = encounter[0] + " CR: " + encounter[2] + " Creature Type: " + encounter[1]
 
-                Drops = readTupleCSV2("./CSVs/Loot/" + encounter[1].replace(')','') + "Loot.txt")
+                Drops = readTupleCSV2("./CSVs/Loot/" + encounter[1] + "Loot.txt")
+                legendary = []
+                veryRare = []
+                rare = []
+                uncommon = []
+                common = []
 
                 for j in range (0, len(Drops)):
-                    Drops[j] = Drops[j].replace("(", "")
+                    Drops[j] = Drops[j].replace("(", "").replace(")",'')
                     temp = Drops[j].split(",")
-                    rarity = temp[0]
                     item = temp[1]
-                    final_drops.append("Drops: " + item)
                     
-                output += encounter_string + '\n' + selectFromList(final_drops) + '\n'
+                    if (temp[0] == 'L'):
+                        legendary.append("Drops: " + item)
+                    elif (temp[0] == 'V'):
+                        veryRare.append("Drops: " + item)
+                    elif (temp[0] == 'R'):
+                        rare.append("Drops: " + item)
+                    elif (temp[0] == 'U'):
+                        uncommon.append("Drops: " + item)
+                    else:
+                        common.append("Drops: " + item)
+                        
+                
+                populated = False
+                while(not populated):
+                    rarity = randint(0,100)
+                    if (rarity > 96):
+                        if (len(legendary) != 0):
+                            drop_string = selectFromList(legendary)
+                            populated = True
+                    elif (rarity > 89):
+                        if (len(veryRare) != 0):
+                            drop_string = selectFromList(veryRare)
+                            populated = True
+                    elif (rarity > 75):
+                        if (len(rare) != 0):
+                            drop_string = selectFromList(rare)
+                            populated = True
+                    elif (rarity > 50):
+                        if (len(uncommon) != 0):
+                            drop_string = selectFromList(uncommon)
+                            populated = True
+                    else:
+                        if (len(common) != 0):
+                            drop_string = selectFromList(common)
+                            populated = True
+                    
+                output += encounter_string + '\n' + drop_string + '\n' + "---------------------------------" + '\n'
                 
             Label_Encounter.config(text = output) 
 

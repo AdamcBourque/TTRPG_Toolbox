@@ -15,7 +15,7 @@ class SpellManager(Toplevel):
           
         super().__init__(master = master) 
         self.title("Spell Manager") 
-        self.geometry("800x600")
+        self.geometry("950x600")
 
         # set lable font
         lblFont = tkFont.Font(family='Helvetica', size=24, weight=tkFont.BOLD)
@@ -235,7 +235,7 @@ class SpellManager(Toplevel):
 
             for i in spells_:
                 if (str(i.name) == selected_spell.get()):
-                    lbl = Label(spell_frame, fg = "white smoke", background = BgColor, justify = "left", text = i.display())
+                    lbl = Label(spell_frame, fg = "white smoke", background = BgColor, justify = "left", text = i.display().replace('*','\u2022'))
                     lbl.pack()
 
         btnPrev = Button(frame, bg=lblColor, fg="white smoke", text ="Preview Spell")
