@@ -31,6 +31,7 @@ class SpellManager(Toplevel):
         
         levels = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
         slots = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        num_slots = [0,1,2,3,4]
         schools = ["All Schools", "Conjuration", "Illusion", "Evocation", "Divination", "Abjuration", "Enchantment", "Transmutation", "Necromancy"]
 
         level = IntVar()
@@ -57,30 +58,29 @@ class SpellManager(Toplevel):
         output_frame.config(background = BgColor)
         output_frame.pack()
         
-        name_label = Label(frame, fg = "white smoke", background = lblColor, text ="Name")
-        name_label.grid(row=1, column=0, padx = 2, pady = 2)
-        name_entry = Entry(frame, textvariable=name) ## field for entry
-        name_entry.grid(row=1, column=1, padx = 2, pady = 2)
-
-        level_label = Label(frame, fg = "white smoke", background = lblColor, text ="Slot Level")
-        level_label.grid(row=1, column=2, padx = 2, pady = 2)
-        level_entry = OptionMenu(frame, level, *levels) ## field for entry
-        level_entry.config(bg=lblColor, fg = 'white smoke')
-        level_entry.grid(row=1, column=3, padx = 2, pady = 2)
-
-        level_label = Label(frame, fg = "white smoke", background = lblColor, text ="Spell Slots")
-        level_label.grid(row=1, column=4, padx = 2, pady = 2)
-        level_entry = Entry(frame, textvariable=slot_holder)
-        level_entry.grid(row=1, column=5, padx = 2, pady = 2)
+##        name_label = Label(frame, fg = "white smoke", background = BgColor, text ="Character Name")
+##        name_label.grid(row=1, column=0, padx = 2, pady = 2)
+##        name_entry = Entry(frame, textvariable=name) ## field for entry
+##        name_entry.grid(row=1, column=1, padx = 2, pady = 2)
+##
+##        level_label = Label(frame, fg = "white smoke", background = BgColor, text ="Slot Level")
+##        level_label.grid(row=1, column=2, padx = 2, pady = 2)
+##        level_entry = OptionMenu(frame, level, *levels) ## field for entry
+##        level_entry.config(bg=lblColor, fg = 'white smoke')
+##        level_entry.grid(row=1, column=3, padx = 2, pady = 2)
+##
+##        slot_number_entry = OptionMenu(frame, slot_holder, *num_slots)
+##        slot_number_entry.config(bg=lblColor, fg = 'white smoke')
+##        slot_number_entry.grid(row=1, column=5, padx = 2, pady = 2)
 
 
         # Sets number of spell slots at set level
         def Add_slots():
             slots[level.get()] = int(slot_holder.get())
 
-        btnSlots = Button(frame, bg=lblColor, fg="white smoke", text ="Add Slots")
-        btnSlots.bind("<Button>", lambda e: Add_slots())
-        btnSlots.grid(row=1, column=4, padx = 2, pady = 2)
+##        btnSlots = Button(frame, bg=lblColor, fg="white smoke", text ="Add Slots")
+##        btnSlots.bind("<Button>", lambda e: Add_slots())
+##        btnSlots.grid(row=1, column=4, padx = 2, pady = 2)
 
         spell_level = StringVar()
         spell_level.set("All")
@@ -92,18 +92,18 @@ class SpellManager(Toplevel):
         cast_time.set("All")
         
 
-        spell_name_label = Label(frame, fg = "white smoke", background = lblColor, text ="Name")
+        spell_name_label = Label(frame, fg = "white smoke", background = BgColor, text ="Spell Name")
         spell_name_label.grid(row=2, column=0, padx = 2, pady = 2)
         spell_name_entry = Entry(frame, textvariable = spell_name) ## field for entry
         spell_name_entry.grid(row=2, column=1, padx = 2, pady = 2)
 
-        spell_level_label = Label(frame, fg = "white smoke", background = lblColor, text ="Level")
+        spell_level_label = Label(frame, fg = "white smoke", background = BgColor, text ="Level")
         spell_level_label.grid(row=2, column=2, padx = 2, pady = 2)
         spell_level_entry = OptionMenu(frame, spell_level, *levels) ## field for entry
         spell_level_entry.config(bg=lblColor, fg = 'white smoke')
         spell_level_entry.grid(row=2, column=3, padx = 2, pady = 2)
 
-        School_label = Label(frame, fg = "white smoke", background = lblColor, text ="School")
+        School_label = Label(frame, fg = "white smoke", background = BgColor, text ="School")
         School_label.grid(row=2, column=4, padx = 2, pady = 2)
         School_entry = OptionMenu(frame, school, *schools)
         School_entry.config(bg=lblColor, fg = 'white smoke')
@@ -114,9 +114,10 @@ class SpellManager(Toplevel):
 
         spell_list_entry = OptionMenu(frame, selected_spell, *sorted_spells) ## field for entry
         spell_list_entry.config(bg=lblColor, fg = 'white smoke')
-        spell_list_entry.grid(row=2, column=10, padx = 2, pady = 2)
+        spell_list_entry.grid(row=3, column=3, padx = 2, pady = 2)
 
-        spell_loadout_label = Label(output_frame, text = "")
+        spell_loadout_label = Label(output_frame, fg = "white smoke", background = BgColor, text = "")
+        spell_loadout_label.grid(row=0, column=0, padx = 2, pady = 2)
 
         def Spell_Search(spell_list_entry):
             global sorted_spells
@@ -135,26 +136,24 @@ class SpellManager(Toplevel):
                     spell_list_entry.destroy()
                     spell_list_entry = OptionMenu(frame, selected_spell, *sorted_spells) ## field for entry
                     spell_list_entry.config(bg=lblColor, fg = 'white smoke')
-                    spell_list_entry.grid(row=2, column=10, padx = 2, pady = 2)
+                    spell_list_entry.grid(row=3, column=3, padx = 2, pady = 2)
                      
 
         def Add_Spell(selected_spell, spell_loadout_label):
             for i in spells_:
-                if (i.name == selected_spell.get()):
+                if (i.name == selected_spell and i not in spell_list):
                     spell_list.append(i)
             output = format_output(name.get(), spell_list)
-            spell_loadout_label.destroy()
-            spell_loadout_label = Label(output_frame, text = output)
-            spell_loadout_label.grid(row=0, column=0, padx = 2, pady = 2)
+            spell_loadout_label.config(text = output)
             
 
         btnSearch = Button(frame, bg=lblColor, fg="white smoke", text ="Search")
         btnSearch.bind("<Button>", lambda e: Spell_Search(spell_list_entry))
-        btnSearch.grid(row=2, column=9, padx = 2, pady = 2)
+        btnSearch.grid(row=3, column=2, padx = 2, pady = 2)
         
         btnAddSpell = Button(frame, bg=lblColor, fg="white smoke", text ="Add Spell")
-        btnAddSpell.bind("<Button>", lambda e: Add_Spell(selected_spell, spell_loadout_label))
-        btnAddSpell.grid(row=2, column=11, padx = 2, pady = 2)
+        btnAddSpell.bind("<Button>", lambda e: Add_Spell(selected_spell.get(), spell_loadout_label))
+        btnAddSpell.grid(row=3, column=5, padx = 2, pady = 2)
 
         def format_output(LoadoutName, spell_list):
             output = "Cantrips: "
@@ -201,25 +200,31 @@ class SpellManager(Toplevel):
             return output
 
         def Save_Loadout(output):
-            sheet = open("./Sheets/SpellLoadouts/" + name.get() + "Spells.txt", "w") ## writes output to file "name.txt"
-            sheet.write(output)
-            sheet.close()
+            file = filedialog.asksaveasfile(initialdir = "./Sheets/SpellLoadouts/", title = "Select a File", filetypes = (("Text", "*.txt*"), ("all files",  "*.*")))
+            temp = ''
+            for i in spell_list:
+                temp += i.name + ','
+            file.write(temp)
+            file.close()
 
         btnSave = Button(frame, bg=lblColor, fg="white smoke", text ="Save Loadout")
         btnSave.bind("<Button>", lambda e: Save_Loadout(format_output(name.get(), spell_list)))
-        btnSave.grid(row=3, column=1, padx = 2, pady = 2)
+        btnSave.grid(row=3, column=0, padx = 2, pady = 2)
 
         btnLoad = Button(frame, bg=lblColor, fg="white smoke", text ="Load Loadout")
-        btnLoad.bind("<Button>", lambda e: display_loadout(name.get(), spell_loadout_label))
-        btnLoad.grid(row=3, column=2, padx = 2, pady = 2)
+        btnLoad.bind("<Button>", lambda e: display_loadout(spell_list, spell_loadout_label))
+        btnLoad.grid(row=3, column=1, padx = 2, pady = 2)
 
-        def display_loadout(LoadoutName, spell_loadout_label):
-            sheet = open("./Sheets/SpellLoadouts/" + LoadoutName + "Spells.txt", "r")
-            output = sheet.read()
-            sheet.close()
-            spell_loadout_label.destroy()
-            spell_loadout_label = Label(output_frame, text = output)
-            spell_loadout_label.grid(row=0, column=0, padx = 2, pady = 2)
+        def display_loadout(spell_list, spell_loadout_label):
+            for i in spell_list:
+                spell_list.remove(i)
+            sheet = filedialog.askopenfilename(initialdir = "./Sheets/SpellLoadouts/", title = "Select a File", filetypes = (("Text", "*.txt*"), ("all files",  "*.*")))
+            if (str(sheet) != ''):
+                temp = readCSV(sheet)
+                for i in temp:
+                    Add_Spell(i, spell_loadout_label)
+            else:
+                file_error()
 
         def prev_spell():
             
@@ -240,5 +245,5 @@ class SpellManager(Toplevel):
 
         btnPrev = Button(frame, bg=lblColor, fg="white smoke", text ="Preview Spell")
         btnPrev.bind("<Button>", lambda e: prev_spell())
-        btnPrev.grid(row=3, column=9, padx = 2, pady = 2)
+        btnPrev.grid(row=3, column=4, padx = 2, pady = 2)
             

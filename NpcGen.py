@@ -42,30 +42,38 @@ class NpcGen(Toplevel):
         numN = StringVar() ## Number of negative traits
         numN.set(nNums[0])
 
-        labelType = Label(self, fg="white smoke", background=BgColor, text = "NPC Type")
-        labelType.pack()
-        opType = OptionMenu(self, Types, *types) ## drop down menu select
+        frame = Frame(self)
+        frame.config(bg = BgColor)
+        frame.pack()
+
+        lblfrme = Frame(self)
+        lblfrme.config(bg = BgColor)
+        lblfrme.pack()
+
+        labelType = Label(frame, fg="white smoke", background=BgColor, text = "NPC Type")
+        labelType.grid(row=0, column=0, padx = 2, pady = 2)
+        opType = OptionMenu(frame, Types, *types) ## drop down menu select
         opType.config(fg="white smoke", background=lblColor)
-        opType.pack()
+        opType.grid(row=1, column=0, padx = 2, pady = 2)
 
-        labelType = Label(self, fg="white smoke", background=BgColor, text = "Positive traits")
-        labelType.pack()
-        optP = OptionMenu(self, numP, *pNums) ## drop down menu select
+        labelType = Label(frame, fg="white smoke", background=BgColor, text = "Positive traits")
+        labelType.grid(row=0, column=1, padx = 2, pady = 2)
+        optP = OptionMenu(frame, numP, *pNums) ## drop down menu select
         optP.config(fg="white smoke", background=lblColor)
-        optP.pack()
+        optP.grid(row=1, column=1, padx = 2, pady = 2)
 
-        labelN = Label(self, fg="white smoke", background=BgColor, text = "Negative traits")
-        labelN.pack()
-        optN = OptionMenu(self, numN, *nNums) ## drop down menu select
+        labelN = Label(frame, fg="white smoke", background=BgColor, text = "Negative traits")
+        labelN.grid(row=0, column=2, padx = 2, pady = 2)
+        optN = OptionMenu(frame, numN, *nNums) ## drop down menu select
         optN.config(fg="white smoke", background=lblColor)
-        optN.pack()
+        optN.grid(row=1, column=2, padx = 2, pady = 2)
 
-        labelOutputType = Label(self, fg="white smoke", background=BgColor, text = "")
-        labelOutputType.pack()
-        labelOutputP = Label(self, fg="white smoke", background=BgColor, text = "")
-        labelOutputP.pack()
-        labelOutputN = Label(self, fg="white smoke", background=BgColor, text = "")
-        labelOutputN.pack()
+        labelOutputType = Label(lblfrme, fg="white smoke", background=BgColor, text = "")
+        labelOutputType.grid(row=1, column=0, padx = 2, pady = 2)
+        labelOutputP = Label(lblfrme, fg="white smoke", background=BgColor, text = "")
+        labelOutputP.grid(row=2, column=0, padx = 2, pady = 2)
+        labelOutputN = Label(lblfrme, fg="white smoke", background=BgColor, text = "")
+        labelOutputN.grid(row=3, column=0, padx = 2, pady = 2)
 
         def NPC_Gen(*args):
             output = StringVar()
@@ -111,6 +119,6 @@ class NpcGen(Toplevel):
             labelOutputN.config(text = "")
             
             
-        button1 = Button(self, fg="white smoke", background=lblColor, text="Generate", command=NPC_Gen) ## button to run process 
-        button1.pack()
+        button1 = Button(frame, fg="white smoke", background=lblColor, text="Generate", command=NPC_Gen) ## button to run process 
+        button1.grid(row=1, column=3, padx = 2, pady = 2)
 

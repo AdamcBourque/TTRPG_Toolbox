@@ -50,16 +50,16 @@ class EncounterGen(Toplevel):
         difficulty.set(difficulties[0])
 
         terrains_label = Label(frame, fg="white smoke", background=BgColor, text ="Terrain")
-        terrains_label.grid(row=1, column=3, padx = 2, pady = 2)
+        terrains_label.grid(row=1, column=0, padx = 2, pady = 2)
         terrains_entry = OptionMenu(frame, terrainTypes, *terrains) ## field for entry
         terrains_entry.config(bg = lblColor, fg = "white smoke")
-        terrains_entry.grid(row=1, column=4, padx = 2, pady = 2)
+        terrains_entry.grid(row=2, column=0, padx = 2, pady = 2)
 
         dif_label = Label(frame, fg="white smoke", background=BgColor, text ="Difficulty")
-        dif_label.grid(row=1, column=5, padx = 2, pady = 2)
+        dif_label.grid(row=1, column=1, padx = 2, pady = 2)
         dif_entry = OptionMenu(frame, difficulty, *difficulties) ## field for entry
         dif_entry.config(bg = lblColor, fg = "white smoke")
-        dif_entry.grid(row=1, column=6, padx = 2, pady = 2)
+        dif_entry.grid(row=2, column=1, padx = 2, pady = 2)
 
         Label_Encounter = Label(output_frame, fg="white smoke", background=BgColor, text = "")
         Label_Encounter.grid(row=0, column=0, padx = 2, pady = 2)
@@ -68,10 +68,10 @@ class EncounterGen(Toplevel):
         number_enemies.set(mobs[0])
 
         number_enemies_label = Label(frame, fg="white smoke", background=BgColor, text ="Number of Enemies")
-        number_enemies_label.grid(row=1, column=7, padx = 2, pady = 2)
+        number_enemies_label.grid(row=1, column=2, padx = 2, pady = 2)
         number_enemies_entry = OptionMenu(frame, number_enemies, *mobs) ## field for entry
         number_enemies_entry.config(bg = lblColor, fg = "white smoke")
-        number_enemies_entry.grid(row=1, column=8, padx = 2, pady = 2)
+        number_enemies_entry.grid(row=2, column=2, padx = 2, pady = 2)
         
 
         def loadParams():

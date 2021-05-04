@@ -29,22 +29,36 @@ class ShopInventory(Toplevel):
         economic_levels = ["Wealthy", "Comfortable", "Modest", "Poor", "Squalid"] ## list of wealth categories 
         
         shopTypes = StringVar()  ## currently selected shop
-        shopTypes.set(shops[0])  
+        shopTypes.set(shops[0])
 
-        opt = OptionMenu(self, shopTypes, *shops) ## drop down menu select
+        frame = Frame(self)
+        frame.config(bg = BgColor)
+        frame.pack()
+
+        lblfrme = Frame(self)
+        lblfrme.config(bg = BgColor)
+        lblfrme.pack()
+
+        opt_label = Label(frame, fg="white smoke", background=BgColor, text ="Shop Type")
+        opt_label.grid(row=1, column=0, padx = 2, pady = 2)
+        opt = OptionMenu(frame, shopTypes, *shops) ## drop down menu select
         opt.config(fg="white smoke", background=lblColor)
-        opt.pack()
+        opt.grid(row=2, column=0, padx = 2, pady = 2)
 
         economic_level = StringVar()
         economic_level.set(economic_levels[2])
 
-        eco_opt = OptionMenu(self, economic_level, *economic_levels) ## drop down menu select
+        eco_label = Label(frame, fg="white smoke", background=BgColor, text ="Economic Level")
+        eco_label.grid(row=1, column=1, padx = 2, pady = 2)
+        eco_opt = OptionMenu(frame, economic_level, *economic_levels) ## drop down menu select
         eco_opt.config(fg="white smoke", background=lblColor)
-        eco_opt.pack()
+        eco_opt.grid(row=2, column=1, padx = 2, pady = 2)
 
         output = StringVar()
+        output.set('\n' + "===== INVENTORY =====" + '\n' + "Item: Quantity - Price" + '\n' + '\n')
         
-        label = Label(self, fg="white smoke", background=BgColor, textvariable = output)
+        label = Label(lblfrme, fg="white smoke", background=BgColor, textvariable = output)
+        label.grid(row=1, column=6, padx = 2, pady = 2)
 
         def GenInventory(*args):
             fish = shopTypes.get()
@@ -55,7 +69,7 @@ class ShopInventory(Toplevel):
             economic_multiplier = {"Wealthy":2.5, "Comfortable":1.5, "Modest":1, "Poor":.5, "Squalid":.25}
             temp = 0
             count = 0
-            string = ''
+            string = '\n' + "===== INVENTORY =====" + '\n' + "Item: Quantity - Price" + '\n' + '\n'
             
 
             for i in items:
@@ -73,7 +87,7 @@ class ShopInventory(Toplevel):
                     
                 
             output.set(string)
-            label.pack()
+            label.config(text = output)
             
-        button1 = Button(self, fg="white smoke", background=lblColor, text="Generate", command=GenInventory) 
-        button1.pack()
+        button1 = Button(frame, fg="white smoke", background=lblColor, text="Generate", command=GenInventory) 
+        button1.grid(row=2, column=2, padx = 2, pady = 2)

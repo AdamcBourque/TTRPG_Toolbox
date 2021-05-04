@@ -56,11 +56,18 @@ class OverlandManage(Toplevel):
         map_name = StringVar()
         map_name.set("New Map")
 
+        top_label = Label(frame, fg="white smoke", background=BgColor, anchor="w", justify=LEFT, font = ("Helvetica", 12, "bold"), text ="Overlay Management:")
+        top_label.grid(row=2, column=0, padx = 2, pady = 2, sticky=W)
+        mid_label = Label(frame, fg="white smoke", background=BgColor, anchor="w", justify=LEFT, font = ("Helvetica", 12, "bold"), text ="Encounter Management:")
+        mid_label.grid(row=4, column=0, padx = 2, pady = 2, sticky=W)
+        bottom_label = Label(frame, fg="white smoke", background=BgColor, anchor="w", justify=LEFT, font = ("Helvetica", 12, "bold"), text ="Data Management:")
+        bottom_label.grid(row=5, column=0, padx = 2, pady = 2, sticky=W)
+
         map_name_label = Label(frame, fg="white smoke", background=BgColor, text ="Map Name")
-        map_name_label.grid(row=1, column=0, padx = 2, pady = 2)
+        map_name_label.grid(row=1, column=1, padx = 2, pady = 2)
         map_name_entry = OptionMenu(frame, map_name, *maps) ## drop down menu select
-        map_name_entry.grid(row=1, column=2, padx = 2, pady = 2)
-        map_name_entry.config(fg="white smoke", background=lblColor)
+        map_name_entry.grid(row=2, column=1, padx = 6, pady = 2)
+        map_name_entry.config(fg="white smoke", background=lblColor, highlightbackground = BgColor, highlightcolor = BgColor)
         
         terrainTypes = StringVar()
         terrainTypes.set(terrains[0])
@@ -76,31 +83,30 @@ class OverlandManage(Toplevel):
         size.set(25)
 
         size_label = Label(frame, fg="white smoke", background=BgColor, text ="Size")
-        size_label.grid(row=1, column=5, padx = 2, pady = 2)
+        size_label.grid(row=1, column=2, padx = 2, pady = 2)
 
         def Csize(_=None):
             size.set(SizeOpt.get())
             
         SizeOpt = Scale(frame, orient = HORIZONTAL, from_=25, to=75, resolution=1, command = Csize)
-        SizeOpt.config(fg="white smoke", background=lblColor)
-        
-        SizeOpt.grid(row=1, column=6, padx = 2, pady = 2)
+        SizeOpt.config(fg="white smoke", background=lblColor, highlightbackground = BgColor, highlightcolor = BgColor)
+        SizeOpt.grid(row=2, column=2, padx = 6, pady = 2)
 
-        btnLoad = Button(frame, fg="white smoke", background=lblColor, text ="Load")
+        btnLoad = Button(frame, fg="white smoke", background=lblColor, text ="Load Map Data")
         btnLoad.bind("<Button>", lambda e: loadFromCsv())
-        btnLoad.grid(row=1, column=7, padx = 2, pady = 2)
+        btnLoad.grid(row=5, column=1, padx = 2, pady = 30)
 
         hex_id = StringVar()
         hex_id.set(0)
         
         hex_id_label = Label(frame, fg="white smoke", background=BgColor, text ="Hex ID")
-        hex_id_label.grid(row=2, column=0, padx = 2, pady = 2)
-        hex_id_entry = Entry(frame, textvariable = hex_id)
-        hex_id_entry.grid(row=2, column=1, padx = 2, pady = 2)
+        hex_id_label.grid(row=3, column=1, padx = 2, pady = (1,5))
+        hex_id_entry = Entry(frame, width=6, textvariable = hex_id) #///////////////////////////
+        hex_id_entry.grid(row=4, column=1, padx = 2, pady = 2)
 
         btnCheck = Button(frame, fg="white smoke", background=lblColor, text ="Check for Encounter")
         btnCheck.bind("<Button>", lambda e: check())
-        btnCheck.grid(row=2, column=5, padx = 2, pady = 2)
+        btnCheck.grid(row=4, column=2, padx = 2, pady = 2)
 
         lbl_encounter = Label(lbl_frame, fg="white smoke", background=BgColor, text = '')
         lbl_encounter.pack()
@@ -172,16 +178,16 @@ class OverlandManage(Toplevel):
 
             first_image.show()
             first_image.save("./Maps/HexMaps/" + map_name.get())
-            btnFormatter.grid(row=2, column=7, padx = 2, pady = 2)
+            btnFormatter.grid(row=5, column=2, padx = 2, pady = 2)
 
 
-        btnOverlay = Button(frame, fg="white smoke", background=lblColor, text ="Generate")
+        btnOverlay = Button(frame, fg="white smoke", background=lblColor, text ="Overlay Hex Grid")
         btnOverlay.bind("<Button>", lambda e: overlay())
-        btnOverlay.grid(row=1, column=9, padx = 2, pady = 2)
+        btnOverlay.grid(row=2, column=3, padx = 2, pady = 2)
 
         btnEncounter = Button(frame, fg="white smoke", background=lblColor, text ="Generate Encounter")
         btnEncounter.bind("<Button>", lambda e: EncounterGen("Keep", 0, 0))
-        btnEncounter.grid(row=2, column=9, padx = 2, pady = 2)
+        btnEncounter.grid(row=4, column=3, padx = 2, pady = 2)
 
         def submit(name, start, end):
             global formatter
@@ -193,7 +199,6 @@ class OverlandManage(Toplevel):
                 
             saveToCsv(formatter)
             
-
         def tile_formatter(map_name):
             global terrains, text, formatter
             
@@ -205,28 +210,30 @@ class OverlandManage(Toplevel):
             formatterT.title("Tile Formatter")
             formatterT.geometry("800x300")
 
+            formatterT.config(bg = BgColor)
+
             terrain_label = Label(formatterT, fg="white smoke", background=BgColor, text ="Terrain Type")
-            terrain_label.grid(row=1, column=3, padx = 2, pady = 2)
+            terrain_label.grid(row=1, column=0, padx = 2, pady = 2)
             TerrainOpt = OptionMenu(formatterT, terrainTypes, *terrains) ## drop down menu select
-            TerrainOpt.grid(row=1, column=4, padx = 2, pady = 2)
-            TerrainOpt.config(fg="white smoke", background=lblColor)
+            TerrainOpt.grid(row=2, column=0, padx = 2, pady = 2)
+            TerrainOpt.config(fg="white smoke", background=lblColor, highlightbackground = BgColor, highlightcolor = BgColor)
 
             dif_label = Label(formatterT, fg="white smoke", background=BgColor, text ="Difficulty")
-            dif_label.grid(row=1, column=5, padx = 2, pady = 2)
+            dif_label.grid(row=1, column=1, padx = 2, pady = 2)
             dif_entry = OptionMenu(formatterT, difficulty, *difficulties) ## field for entry
-            dif_entry.grid(row=1, column=6, padx = 2, pady = 2)
-            diff_entry.config(fg="white smoke", background=lblColor)
+            dif_entry.grid(row=2, column=1, padx = 2, pady = 2)
+            dif_entry.config(fg="white smoke", background=lblColor, highlightbackground = BgColor, highlightcolor = BgColor)
 
             number_enemies_label = Label(formatterT, fg="white smoke", background=BgColor, text ="Number of Enemies")
-            number_enemies_label.grid(row=1, column=7, padx = 2, pady = 2)
+            number_enemies_label.grid(row=1, column=2, padx = 2, pady = 2)
             number_enemies_entry = OptionMenu(formatterT, quant, *mobs) ## field for entry
-            number_enemies_entry.grid(row=1, column=8, padx = 2, pady = 2)
-            number_enemies_entry.config(fg="white smoke", background=lblColor)
+            number_enemies_entry.grid(row=2, column=2, padx = 2, pady = 2)
+            number_enemies_entry.config(fg="white smoke", background=lblColor, highlightbackground = BgColor, highlightcolor = BgColor)
 
             chance_label = Label(formatterT, fg="white smoke", background=BgColor, text ="% Chance")
-            chance_label.grid(row=1, column=9, padx = 2, pady = 2)
-            chance_entry = Entry(formatterT, textvariable = chance) ## field for entry
-            chance_entry.grid(row=1, column=10, padx = 2, pady = 2)
+            chance_label.grid(row=1, column=3, padx = 2, pady = 2)
+            chance_entry = Entry(formatterT, width=6, textvariable = chance) ## field for entry
+            chance_entry.grid(row=2, column=3, padx = 2, pady = 2)
 
             range_start = IntVar()
             range_start.set(1)
@@ -234,18 +241,18 @@ class OverlandManage(Toplevel):
             range_end.set(1)
 
             range_start_label = Label(formatterT, fg="white smoke", background=BgColor, text ="Tile Start")
-            range_start_label.grid(row=2, column=3, padx = 2, pady = 2)
-            range_start_entry = Entry(formatterT, textvariable = range_start)
-            range_start_entry.grid(row=2, column=4, padx = 2, pady = 2)
+            range_start_label.grid(row=3, column=0, padx = 2, pady = 2)
+            range_start_entry = Entry(formatterT, width=6, textvariable = range_start)
+            range_start_entry.grid(row=4, column=0, padx = 2, pady = 2)
 
             range_end_label = Label(formatterT, fg="white smoke", background=BgColor, text ="Tile End")
-            range_end_label.grid(row=2, column=5, padx = 2, pady = 2)
-            range_end_entry = Entry(formatterT, textvariable = range_end)
-            range_end_entry.grid(row=2, column=6, padx = 2, pady = 2)
+            range_end_label.grid(row=3, column=1, padx = 2, pady = 2)
+            range_end_entry = Entry(formatterT, width=6, textvariable = range_end)
+            range_end_entry.grid(row=4, column=1, padx = 2, pady = 2)
 
             btnSubmit = Button(formatterT, fg="white smoke", background=lblColor, text ="Submit")
             btnSubmit.bind("<Button>", lambda e: submit(map_name, range_start.get(), range_end.get()))
-            btnSubmit.grid(row=2, column=10, padx = 2, pady = 2)
+            btnSubmit.grid(row=4, column=3, padx = 2, pady = 2)
 
         btnFormatter = Button(frame, fg="white smoke", background=lblColor, text ="Format Tiles")
         btnFormatter.bind("<Button>", lambda e: tile_formatter(map_name.get()))
@@ -253,14 +260,17 @@ class OverlandManage(Toplevel):
         def loadFromCsv():
             global text, formatter, data
             sheet = filedialog.askopenfilename(initialdir = "./MapData/", title = "Select a File", filetypes = (("Text", "*.txt*"), ("all files",  "*.*")))
-            data = readCSV(sheet)
-            map_name.set(data[0])
-            terrainTypes.set(data[1])
-            text = data[2]
-            formatter = []
-            for i in range (0,int(text),5):
-                formatter.append([i/5+1, data[4+i] , data[5+i], data[6+i], data[7+i]])
-            btnFormatter.grid(row=2, column=7, padx = 2, pady = 2)
+            if (str(sheet) != ''):
+                data = readCSV(sheet)
+                map_name.set(data[0])
+                terrainTypes.set(data[1])
+                text = data[2]
+                formatter = []
+                for i in range (0,int(text),5):
+                    formatter.append([i/5+1, data[4+i] , data[5+i], data[6+i], data[7+i]])
+                btnFormatter.grid(row=5, column=2, padx = 2, pady = 2)
+            else:
+                file_error()
 
         def saveToCsv(formatting):
             global offCoord, data, formatter

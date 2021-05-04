@@ -143,3 +143,11 @@ def readTupleCSV2(filename):
 ## returns one item from a coma seperatied list
 def selectFromList(items):  
     return items[randint(0,len(items)-1)]
+
+def file_error():
+    error = Toplevel(self)
+    error.title("Notice")
+    error.geometry("400x200")
+
+    label = Label(error, text = "No File Selected")
+    label.pack()

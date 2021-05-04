@@ -44,34 +44,34 @@ class BattlemapGen(Toplevel):
         map_name_label = Label(frame, fg="white smoke", background=BgColor, text ="Map Name")
         map_name_label.grid(row=1, column=0, padx = 2, pady = 2)
         map_name_entry = Entry(frame, textvariable=map_name)
-        map_name_entry.grid(row=1, column=2, padx = 2, pady = 2)
+        map_name_entry.grid(row=2, column=0, padx = 2, pady = 2)
         
         terrainTypes = StringVar()
         terrainTypes.set(terrains[0])
 
         terrain_label = Label(frame, fg="white smoke", background=BgColor, text ="Terrain Type")
-        terrain_label.grid(row=1, column=3, padx = 2, pady = 2)
+        terrain_label.grid(row=1, column=1, padx = 2, pady = 2)
         TerrainOpt = OptionMenu(frame, terrainTypes, *terrains) ## drop down menu select
         TerrainOpt.config(bg=lblColor, fg = 'white smoke')
-        TerrainOpt.grid(row=1, column=4, padx = 2, pady = 2)
+        TerrainOpt.grid(row=2, column=1, padx = 2, pady = 2)
 
         size = StringVar()
         size.set(sizes[0])
 
         size_label = Label(frame, fg="white smoke", background=BgColor, text ="Size")
-        size_label.grid(row=1, column=5, padx = 2, pady = 2)
+        size_label.grid(row=1, column=2, padx = 2, pady = 2)
         SizeOpt = OptionMenu(frame, size, *sizes) ## drop down menu select
         SizeOpt.config(bg=lblColor, fg = 'white smoke')
-        SizeOpt.grid(row=1, column=6, padx = 2, pady = 2)
+        SizeOpt.grid(row=2, column=2, padx = 2, pady = 2)
 
         density = StringVar()
         density.set(featureDensities[2])
 
         density_label = Label(frame, fg="white smoke", background=BgColor, text ="Feature Density")
-        density_label.grid(row=1, column=7, padx = 2, pady = 2)
+        density_label.grid(row=1, column=3, padx = 2, pady = 2)
         DensityOpt = OptionMenu(frame, density, *featureDensities) ## drop down menu select
         DensityOpt.config(bg=lblColor, fg = 'white smoke')
-        DensityOpt.grid(row=1, column=8, padx = 2, pady = 2)
+        DensityOpt.grid(row=2, column=3, padx = 2, pady = 2)
 
         new_frame = Frame(self)
         new_frame.config(bg=BgColor)
@@ -205,7 +205,7 @@ class BattlemapGen(Toplevel):
         
         btnBattlemap = tk.Button(frame,  fg="white smoke", background=lblColor, text ="Generate")
         btnBattlemap.bind("<Button>", lambda e: GenMap(size.get(), density.get(), terrainTypes.get()))
-        btnBattlemap.grid(row=1, column=9, padx = 2, pady = 2)
+        btnBattlemap.grid(row=2, column=4, padx = 2, pady = 2)
 
         def saveToCsv():
             output = ""  ## holds the fields in the form of a csv
