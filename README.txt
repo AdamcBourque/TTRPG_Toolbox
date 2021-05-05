@@ -61,3 +61,11 @@ Forgotten Adventures Asset Usage
 The Keep software utilizes art assets from Forgotten Adventures in the battlemap generation tool and claims no ownership over such assets.
 
 A link to the Forgotten Adventures can be found here: https://www.forgotten-adventures.net/
+
+
+
+
+Unexplored Moon Usage by Miguel Johnson Usage
+
+"Miguel Johnson - Unexplored Moon" is under a Creative Commons (CC BY-NC 3.0) license
+Music promoted by BreakingCopyright: http://bit.ly/b-unexplored-moon
