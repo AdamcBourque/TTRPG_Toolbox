@@ -1,1 +1,0 @@
-(Gallon of Ale,C,2 SP),(Mug of Ale,C,4 CP),(Pitcher of Common Wine,C,2 SP),(Bottle of Fine Wine,R,10 GP),(Mug of Tej,R,4 CP),(Cask of Tej,R,3 SP),(Stout,C,1 SP),(Honey Mead,C,1 CP),(House Wine,C,1 CP),(Mulled Wine,C,1 GP),(Brandy,U,1 CP),(Brewer’s Supplies,U,20 GP)
