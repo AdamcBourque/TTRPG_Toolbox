@@ -65,25 +65,44 @@ class ShopInventory(Toplevel):
             fish = fish.replace("\ufeff", '')
             shop = ("./CSVs/Inventories/" + fish + "Inventory.txt") ## file path of inventory csv for selected shop
             items = readTupleCSV(shop) ## list of Items
+            shuffle(items)
             rarity = {'C':75, 'U':50, 'R':25, 'V':10, 'L':1} ## rarity to quantity dictionary
             economic_multiplier = {"Wealthy":2.5, "Comfortable":1.5, "Modest":1, "Poor":.5, "Squalid":.25}
             temp = 0
             count = 0
-            string = '\n' + "===== INVENTORY =====" + '\n' + "Item: Quantity - Price" + '\n' + '\n'
             
+            
+            if (fish == 'Magic Item Shop'):
+                string = '\n' + "===== INVENTORY =====" + '\n' + "Item: Quantity - Requires Attunement (From Source)" + '\n' + '\n'
+                attune = ''
+                for i in items:
+                    temp = randint(0,100)
+                    multi = economic_multiplier[economic_level.get()]
 
-            for i in items:
-                temp = randint(0,100)
-                multi = economic_multiplier[economic_level.get()]
+                    if (count < 25):
+                        if (temp < rarity[i[1]] * multi):
+                            q = (rarity[i[1]] / 25) * multi
+                            q = randint(0, int(ceil(q)))
+                            if (i[2] == 1):
+                                attune = "Requires Attunement"
+                            if (i[1] == 'L'):
+                                q = 1
+                            string += (i[0] + ": " + str(q) + " - " + attune + " (From " + i[3] + ')' + "\n")
+                            count = count + 1
+            else:
+                string = '\n' + "===== INVENTORY =====" + '\n' + "Item: Quantity - Price" + '\n' + '\n'
+                for i in items:
+                    temp = randint(0,100)
+                    multi = economic_multiplier[economic_level.get()]
 
-                if (count < 25):
-                    if (temp < rarity[i[1]] * multi):
-                        q = (rarity[i[1]] / 10) * multi
-                        q = int(ceil(q))
-                        if (i[1] == 'L'):
-                            q = 1
-                        string += (i[0] + ": " + str(q) + " - " + i[2] + "\n")
-                        count = count + 1
+                    if (count < 25):
+                        if (temp < rarity[i[1]] * multi):
+                            q = (rarity[i[1]] / 10) * multi
+                            q = randint(1, int(ceil(q)))
+                            if (i[1] == 'L'):
+                                q = 1
+                            string += (i[0] + ": " + str(q) + " - " + i[2] + "\n")
+                            count = count + 1
                     
                 
             output.set(string)

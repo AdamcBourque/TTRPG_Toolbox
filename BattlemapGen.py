@@ -16,9 +16,9 @@ from random import choice
 
 class BattlemapGen(Toplevel): 
       
-    def __init__(self, master = None): 
+    def __init__(self, Terrain): 
           
-        super().__init__(master = master) 
+        super().__init__() 
         self.title("Battlemap Generator") 
         self.geometry("800x300")
 
@@ -207,6 +207,12 @@ class BattlemapGen(Toplevel):
         btnBattlemap.bind("<Button>", lambda e: GenMap(size.get(), density.get(), terrainTypes.get()))
         btnBattlemap.grid(row=2, column=4, padx = 2, pady = 2)
 
+        def loadParams():
+            if (Terrain != "Keep"):
+                terrainTypes.set(Terrain)
+                if (Terrain != "Type"):
+                    GenMap(size.get(), density.get(), terrainTypes.get())
+
         def saveToCsv():
             output = ""  ## holds the fields in the form of a csv
             output += terrainTypes.get() + ""
@@ -215,3 +221,5 @@ class BattlemapGen(Toplevel):
             output = output.replace('\ufeff', '')
             sheet.write(output)
             sheet.close()
+
+        loadParams()

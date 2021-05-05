@@ -5,6 +5,7 @@
 ## Austin Lalumiere
 
 from KeepFunctions import *
+from BattlemapGen import *
 
 terrains = []
 
@@ -72,6 +73,9 @@ class EncounterGen(Toplevel):
         number_enemies_entry = OptionMenu(frame, number_enemies, *mobs) ## field for entry
         number_enemies_entry.config(bg = lblColor, fg = "white smoke")
         number_enemies_entry.grid(row=2, column=2, padx = 2, pady = 2)
+
+        btnGenMap = Button(frame, fg="white smoke", background=lblColor, text ="Generate Battlemap")
+        btnGenMap.bind("<Button>", lambda e: BattlemapGen(terrainTypes.get()))
         
 
         def loadParams():
@@ -121,7 +125,7 @@ class EncounterGen(Toplevel):
             output = ''
             for i in range (0,int(number_enemies.get())):
                 encounter = selectFromList(Enemies)
-                encounter_string = encounter[0] + " CR: " + encounter[2] + " Creature Type: " + encounter[1]
+                encounter_string = encounter[0] + " CR: " + dec_to_frac(float(encounter[2])) + " Creature Type: " + encounter[1]
 
                 Drops = readTupleCSV2("./CSVs/Loot/" + encounter[1] + "Loot.txt")
                 legendary = []
@@ -172,8 +176,11 @@ class EncounterGen(Toplevel):
                             populated = True
                     
                 output += encounter_string + '\n' + drop_string + '\n' + "---------------------------------" + '\n'
+                btnGenMap.grid(row=2, column=10, padx = 2, pady = 2)
                 
-            Label_Encounter.config(text = output) 
+            Label_Encounter.config(text = output)
+            
+            
 
         btnGen = Button(frame, fg="white smoke", background=lblColor, text ="Generate")
         btnGen.bind("<Button>", lambda e: GenEncounter())

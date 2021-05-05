@@ -144,6 +144,37 @@ def readTupleCSV2(filename):
 def selectFromList(items):  
     return items[randint(0,len(items)-1)]
 
+
+def gcd(a, b):
+    t=0
+    while (b!=0):
+    	t=b
+    	b=a%b
+    	a=t	
+    return a
+
+def reduce(numerator,denominator):
+    fac = gcd(numerator,denominator)
+    numerator /= fac
+    denominator /= fac
+    return [numerator,denominator]
+
+def dec_to_frac(num):
+    dec_part = num % 1
+    if (dec_part != 0):
+        numerator = dec_part
+        denominator = 1
+        while(numerator % 1 != 0):
+            numerator *= 10
+            denominator *= 10
+        temp = reduce(numerator,denominator)
+        if ((num - dec_part) != 0):
+            return str(int(num - dec_part)) + " " + str(int(temp[0])) + '/' + str(int(temp[1]))
+        else:
+            return str(int(temp[0])) + '/' + str(int(temp[1]))
+    else:
+        return str(int(num))
+    
 def file_error():
     error = Toplevel(self)
     error.title("Notice")

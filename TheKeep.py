@@ -64,7 +64,7 @@ btnShop.pack(fill = X, padx=5, pady=8)
 
 
 btnBattlemap = Button(master, background=lblColor, fg='white smoke', text ="Battlemap Generator", font = btnFont)
-btnBattlemap.bind("<Button>", lambda e: BattlemapGen(master))
+btnBattlemap.bind("<Button>", lambda e: BattlemapGen("Keep"))
 btnBattlemap.pack(fill = X, padx=5, pady=8)
 
 
