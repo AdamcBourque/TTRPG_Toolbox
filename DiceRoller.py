@@ -13,6 +13,7 @@ class DiceRoller(Toplevel):
         super().__init__(master = master) 
         self.title("Dice Roller") 
         self.geometry("200x200")
+        self.iconbitmap(r"The-Keep.ico")
 
         # set lable font
         lblFont = tkFont.Font(family='Helvetica', size=24, weight=tkFont.BOLD)

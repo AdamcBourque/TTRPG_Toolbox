@@ -15,6 +15,7 @@ class CharacterManage(Toplevel):
         
         self.title("Character Manager")
         self.geometry("1000x600")
+        self.iconbitmap(r"The-Keep.ico")
 
         frame = Frame(self)
         frame.pack()
@@ -85,13 +86,13 @@ class CharacterManage(Toplevel):
         class_label = Label(frame, fg="white smoke", background=BgColor,  text ="Class")
         class_label.grid(row=2, column=4, padx = 2, pady = 2)
         class_entry = OptionMenu(frame, class_, *classes) ## drop down menu select
-        class_entry.config(bg=lblColor, fg='white smoke')
+        class_entry.config(fg="white smoke", background=lblColor, highlightbackground = BgColor, highlightcolor = BgColor)
         class_entry.grid(row=2, column=5, padx = 2, pady = 2)
 
         level_label = Label(frame, fg="white smoke", background=BgColor,  text ="Level")
         level_label.grid(row=2, column=6, padx = 2, pady = 2)
         level_entry = OptionMenu(frame, level, *stats) ## field for entry
-        level_entry.config(bg=lblColor, fg='white smoke')
+        level_entry.config(fg="white smoke", background=lblColor, highlightbackground = BgColor, highlightcolor = BgColor)
         level_entry.grid(row=2, column=7, padx = 2, pady = 2)
 
         gap_label = Label(frame, fg="white smoke", background=BgColor,  text =" ")
@@ -112,37 +113,37 @@ class CharacterManage(Toplevel):
         strength_label = Label(frame, fg="white smoke", background=BgColor,  text ="Str")
         strength_label.grid(row=5, column=0, padx = 2, pady = 2)
         strength_entry = OptionMenu(frame, strength, *stats) ## field for entry
-        strength_entry.config(bg=lblColor, fg='white smoke')
+        strength_entry.config(fg="white smoke", background=lblColor, highlightbackground = BgColor, highlightcolor = BgColor)
         strength_entry.grid(row=5, column=1, padx = 2, pady = 2)
 
         dex_label = Label(frame, fg="white smoke", background=BgColor,  text ="Dex")
         dex_label.grid(row=6, column=0, padx = 2, pady = 2)
         dex_entry = OptionMenu(frame, dex, *stats) ## field for entry
-        dex_entry.config(bg=lblColor, fg='white smoke')
+        dex_entry.config(fg="white smoke", background=lblColor, highlightbackground = BgColor, highlightcolor = BgColor)
         dex_entry.grid(row=6, column=1, padx = 2, pady = 2)
 
         con_label = Label(frame, fg="white smoke", background=BgColor,  text ="Con")
         con_label.grid(row=7, column=0, padx = 2, pady = 2)
         con_entry = OptionMenu(frame, con, *stats) ## field for entry
-        con_entry.config(bg=lblColor, fg='white smoke')
+        con_entry.config(fg="white smoke", background=lblColor, highlightbackground = BgColor, highlightcolor = BgColor)
         con_entry.grid(row=7, column=1, padx = 2, pady = 2)
 
         int_label = Label(frame, fg="white smoke", background=BgColor,  text ="Int")
         int_label.grid(row=8, column=0, padx = 2, pady = 2)
         int_entry = OptionMenu(frame, inteligence, *stats) ## field for entry
-        int_entry.config(bg=lblColor, fg='white smoke')
+        int_entry.config(fg="white smoke", background=lblColor, highlightbackground = BgColor, highlightcolor = BgColor)
         int_entry.grid(row=8, column=1, padx = 2, pady = 2)
 
         wis_label = Label(frame, fg="white smoke", background=BgColor,  text ="Wis")
         wis_label.grid(row=9, column=0, padx = 2, pady = 2)
         wis_entry = OptionMenu(frame, wis, *stats) ## field for entry
-        wis_entry.config(bg=lblColor, fg='white smoke')
+        wis_entry.config(fg="white smoke", background=lblColor, highlightbackground = BgColor, highlightcolor = BgColor)
         wis_entry.grid(row=9, column=1, padx = 2, pady = 2)
 
         cha_label = Label(frame, fg="white smoke", background=BgColor,  text ="Cha")
         cha_label.grid(row=10, column=0, padx = 2, pady = 2)
         cha_entry = OptionMenu(frame, cha, *stats) ## field for entry
-        cha_entry.config(bg=lblColor, fg='white smoke')
+        cha_entry.config(fg="white smoke", background=lblColor, highlightbackground = BgColor, highlightcolor = BgColor)
         cha_entry.grid(row=10, column=1, padx = 2, pady = 2)
 
         attack_label = Label(frame, fg="white smoke", background=BgColor,  text = "Attack")
@@ -191,7 +192,7 @@ class CharacterManage(Toplevel):
             sProf = IntVar()
             sMod = IntVar()
             skill = skills[i]
-            Checkbutton(frame, fg="white smoke", bg=BgColor, text=skill, variable=sProf).grid(row=(14+int(i/3)), column=2*(i%3))
+            Checkbutton(frame, fg="white smoke", selectcolor=BgColor, bg=BgColor, text=skill, variable=sProf).grid(row=(14+int(i/3)), column=2*(i%3))
             Entry(frame, textvariable = sMod, width = 3).grid(row=(14+int(i/3)), column=2*(i%3)+1)
             profs.append(sProf)
             skillMods.append(sMod)

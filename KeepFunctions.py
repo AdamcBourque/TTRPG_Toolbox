@@ -179,6 +179,9 @@ def file_error():
     error = Toplevel(self)
     error.title("Notice")
     error.geometry("400x200")
+    error.iconbitmap(r"The-Keep.ico")
 
-    label = Label(error, text = "No File Selected")
+    error.config(background=BgColor)
+
+    label = Label(error, fg="white smoke", background=BgColor, text = "No File Selected")
     label.pack()

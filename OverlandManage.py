@@ -20,6 +20,7 @@ tiles = []
 text = 0
 formatter = []
 data = []
+notif = ''
 
 class OverlandManage(Toplevel): 
       
@@ -33,6 +34,7 @@ class OverlandManage(Toplevel):
         super().__init__(master = master) 
         self.title("Overland Travel Manager") 
         self.geometry("800x600")
+        self.iconbitmap(r"The-Keep.ico")
 
         # set label font
         lblFont = tkFont.Font(family='Helvetica', size=24, weight=tkFont.BOLD)
@@ -122,7 +124,7 @@ class OverlandManage(Toplevel):
             saveToCsv(formatter)
             
             if (num < int(data[2+5*int(hex_id.get())])):
-                EncounterGen(tile[1], tile[2], tile[3])
+                EncounterGen(str(tile[1]), str(tile[2]), int(tile[3]))
             else:
                 lbl_encounter.config(text = "No encounter for this hex.")
 
@@ -188,19 +190,9 @@ class OverlandManage(Toplevel):
         btnEncounter = Button(frame, fg="white smoke", background=lblColor, text ="Generate Encounter")
         btnEncounter.bind("<Button>", lambda e: EncounterGen("Keep", 0, 0))
         btnEncounter.grid(row=4, column=3, padx = 2, pady = 2)
-
-        def submit(name, start, end):
-            global formatter
-            for i in range (start-1, end):
-                formatter[i][1] = terrainTypes.get().replace("\ufeff", "")
-                formatter[i][2] = difficulty.get()
-                formatter[i][3] = quant.get()
-                formatter[i][4] = chance.get()
-                
-            saveToCsv(formatter)
             
         def tile_formatter(map_name):
-            global terrains, text, formatter
+            global terrains, text, formatter, notif
             
             if (len(formatter) == 0):
                 for i in range (0,int(text)):
@@ -209,8 +201,26 @@ class OverlandManage(Toplevel):
             formatterT = Toplevel(self)
             formatterT.title("Tile Formatter")
             formatterT.geometry("800x300")
+            formatterT.iconbitmap(r"The-Keep.ico")
 
             formatterT.config(bg = BgColor)
+
+            def submit(name, start, end):
+                global formatter, notif
+            
+                if (end > formatter[-1][0] or start < 1):
+                    notif = "Invalid Range Selection"
+                else:
+                    notif = "Tiles " + str(start) + '-' + str(end) + " sucessfully formatted."
+                    for i in range (start-1, end):
+                        formatter[i][1] = terrainTypes.get().replace("\ufeff", "")
+                        formatter[i][2] = difficulty.get()
+                        formatter[i][3] = quant.get()
+                        formatter[i][4] = chance.get()
+                    
+                notif_label = Label(formatterT, fg="white smoke", background=BgColor, text =notif)
+                notif_label.grid(row=4, column=4, padx = 20, pady = 2)   
+                saveToCsv(formatter)
 
             terrain_label = Label(formatterT, fg="white smoke", background=BgColor, text ="Terrain Type")
             terrain_label.grid(row=1, column=0, padx = 2, pady = 2)
@@ -253,6 +263,7 @@ class OverlandManage(Toplevel):
             btnSubmit = Button(formatterT, fg="white smoke", background=lblColor, text ="Submit")
             btnSubmit.bind("<Button>", lambda e: submit(map_name, range_start.get(), range_end.get()))
             btnSubmit.grid(row=4, column=3, padx = 2, pady = 2)
+
 
         btnFormatter = Button(frame, fg="white smoke", background=lblColor, text ="Format Tiles")
         btnFormatter.bind("<Button>", lambda e: tile_formatter(map_name.get()))

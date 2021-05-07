@@ -19,6 +19,7 @@ class StatusTracker(Toplevel):
         super().__init__(master = master) 
         self.title("Status Tracker") 
         self.geometry("825x600")
+        self.iconbitmap(r"The-Keep.ico")
 
         # set label font
         lblFont = tkFont.Font(family='Helvetica', size=24, weight=tkFont.BOLD)
@@ -58,7 +59,7 @@ class StatusTracker(Toplevel):
         char_name_label = Label(frame, fg="white smoke", background=BgColor, text ="Character Name")
         char_name_label.grid(row=1, column=0, padx = 2, pady = 2)
         char_name_entry = OptionMenu(frame, char_name, *chars) ## drop down menu select
-        char_name_entry.config(bg=lblColor, fg = 'white smoke')
+        char_name_entry.config(fg="white smoke", background=lblColor, highlightbackground = BgColor, highlightcolor = BgColor)
         char_name_entry.grid(row=1, column=1, padx = 2, pady = 2)
 
         condition_name = StringVar()
@@ -67,7 +68,7 @@ class StatusTracker(Toplevel):
         condition_name_label = Label(frame, fg="white smoke", background=BgColor, text ="Condition")
         condition_name_label.grid(row=1, column=2, padx = 2, pady = 2)
         condition_name_entry = OptionMenu(frame, condition_name, *conditions) ## drop down menu select
-        condition_name_entry.config(bg=lblColor, fg = 'white smoke')
+        condition_name_entry.config(fg="white smoke", background=lblColor, highlightbackground = BgColor, highlightcolor = BgColor)
         condition_name_entry.grid(row=1, column=3, padx = 2, pady = 2)
 
         btnAfflict = Button(frame, fg="white smoke", background=lblColor, text ="Add Condition")

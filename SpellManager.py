@@ -16,6 +16,7 @@ class SpellManager(Toplevel):
         super().__init__(master = master) 
         self.title("Spell Manager") 
         self.geometry("950x600")
+        self.iconbitmap(r"The-Keep.ico")
 
         # set lable font
         lblFont = tkFont.Font(family='Helvetica', size=24, weight=tkFont.BOLD)
@@ -29,7 +30,7 @@ class SpellManager(Toplevel):
         spells_ = []
         spell_list = []
         
-        levels = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        levels = ["All Levels", 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
         slots = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         num_slots = [0,1,2,3,4]
         schools = ["All Schools", "Conjuration", "Illusion", "Evocation", "Divination", "Abjuration", "Enchantment", "Transmutation", "Necromancy"]
@@ -100,20 +101,20 @@ class SpellManager(Toplevel):
         spell_level_label = Label(frame, fg = "white smoke", background = BgColor, text ="Level")
         spell_level_label.grid(row=2, column=2, padx = 2, pady = 2)
         spell_level_entry = OptionMenu(frame, spell_level, *levels) ## field for entry
-        spell_level_entry.config(bg=lblColor, fg = 'white smoke')
+        spell_level_entry.config(fg="white smoke", background=lblColor, highlightbackground = BgColor, highlightcolor = BgColor)
         spell_level_entry.grid(row=2, column=3, padx = 2, pady = 2)
 
         School_label = Label(frame, fg = "white smoke", background = BgColor, text ="School")
         School_label.grid(row=2, column=4, padx = 2, pady = 2)
         School_entry = OptionMenu(frame, school, *schools)
-        School_entry.config(bg=lblColor, fg = 'white smoke')
+        School_entry.config(fg="white smoke", background=lblColor, highlightbackground = BgColor, highlightcolor = BgColor)
         School_entry.grid(row=2, column=5, padx = 2, pady = 2)
 
         selected_spell = StringVar()
         selected_spell.set(sorted_spells[0])
 
         spell_list_entry = OptionMenu(frame, selected_spell, *sorted_spells) ## field for entry
-        spell_list_entry.config(bg=lblColor, fg = 'white smoke')
+        spell_list_entry.config(fg="white smoke", background=lblColor, highlightbackground = BgColor, highlightcolor = BgColor)
         spell_list_entry.grid(row=3, column=3, padx = 2, pady = 2)
 
         spell_loadout_label = Label(output_frame, fg = "white smoke", background = BgColor, text = "")
@@ -127,7 +128,7 @@ class SpellManager(Toplevel):
             
             for i in spells_:
                 if (((spell_name.get() == "All Spells") or (i.name == spell_name.get())) and
-                    ((spell_level.get() == "All") or (i.lvl == spell_level.get())) and
+                    ((spell_level.get() == "All Levels") or (i.lvl == spell_level.get())) and
                      ((school.get() == "All Schools") or (i.school == school.get())) and
                       ((cast_time.get() == "All") or (i.action == cast_time.get()))):   
 
@@ -135,7 +136,7 @@ class SpellManager(Toplevel):
                      
                     spell_list_entry.destroy()
                     spell_list_entry = OptionMenu(frame, selected_spell, *sorted_spells) ## field for entry
-                    spell_list_entry.config(bg=lblColor, fg = 'white smoke')
+                    spell_list_entry.config(fg="white smoke", background=lblColor, highlightbackground = BgColor, highlightcolor = BgColor)
                     spell_list_entry.grid(row=3, column=3, padx = 2, pady = 2)
                      
 
@@ -200,7 +201,7 @@ class SpellManager(Toplevel):
             return output
 
         def Save_Loadout(output):
-            file = filedialog.asksaveasfile(initialdir = "./Sheets/SpellLoadouts/", title = "Select a File", filetypes = (("Text", "*.txt*"), ("all files",  "*.*")))
+            file = filedialog.asksaveasfile(initialdir = "./Sheets/SpellLoadouts/", title = "Select a File", defaultextension = ".txt")
             temp = ''
             for i in spell_list:
                 temp += i.name + ','
@@ -231,6 +232,7 @@ class SpellManager(Toplevel):
             spell_viewer = Toplevel(self)
             spell_viewer.title(spell_name.get())
             spell_viewer.geometry("400x400")
+            spell_viewer.iconbitmap(r"The-Keep.ico")
 
             spell_viewer.configure(background=BgColor)
 

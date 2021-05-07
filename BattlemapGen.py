@@ -21,6 +21,7 @@ class BattlemapGen(Toplevel):
         super().__init__() 
         self.title("Battlemap Generator") 
         self.geometry("800x300")
+        self.iconbitmap(r"The-Keep.ico")
 
         # set lable font
         lblFont = tkFont.Font(family='Helvetica', size=24, weight=tkFont.BOLD)
@@ -52,7 +53,7 @@ class BattlemapGen(Toplevel):
         terrain_label = Label(frame, fg="white smoke", background=BgColor, text ="Terrain Type")
         terrain_label.grid(row=1, column=1, padx = 2, pady = 2)
         TerrainOpt = OptionMenu(frame, terrainTypes, *terrains) ## drop down menu select
-        TerrainOpt.config(bg=lblColor, fg = 'white smoke')
+        TerrainOpt.config(fg="white smoke", background=lblColor, highlightbackground = BgColor, highlightcolor = BgColor)
         TerrainOpt.grid(row=2, column=1, padx = 2, pady = 2)
 
         size = StringVar()
@@ -61,7 +62,7 @@ class BattlemapGen(Toplevel):
         size_label = Label(frame, fg="white smoke", background=BgColor, text ="Size")
         size_label.grid(row=1, column=2, padx = 2, pady = 2)
         SizeOpt = OptionMenu(frame, size, *sizes) ## drop down menu select
-        SizeOpt.config(bg=lblColor, fg = 'white smoke')
+        SizeOpt.config(fg="white smoke", background=lblColor, highlightbackground = BgColor, highlightcolor = BgColor)
         SizeOpt.grid(row=2, column=2, padx = 2, pady = 2)
 
         density = StringVar()
@@ -70,7 +71,7 @@ class BattlemapGen(Toplevel):
         density_label = Label(frame, fg="white smoke", background=BgColor, text ="Feature Density")
         density_label.grid(row=1, column=3, padx = 2, pady = 2)
         DensityOpt = OptionMenu(frame, density, *featureDensities) ## drop down menu select
-        DensityOpt.config(bg=lblColor, fg = 'white smoke')
+        DensityOpt.config(fg="white smoke", background=lblColor, highlightbackground = BgColor, highlightcolor = BgColor)
         DensityOpt.grid(row=2, column=3, padx = 2, pady = 2)
 
         new_frame = Frame(self)
@@ -208,10 +209,10 @@ class BattlemapGen(Toplevel):
         btnBattlemap.grid(row=2, column=4, padx = 2, pady = 2)
 
         def loadParams():
-            if (Terrain != "Keep"):
-                terrainTypes.set(Terrain)
-                if (Terrain != "Type"):
-                    GenMap(size.get(), density.get(), terrainTypes.get())
+            if (str(Terrain) != "Keep"):
+                terrainTypes.set(str(Terrain))
+                if (str(Terrain) != "Type"):
+                    GenMap(size.get(), density.get(), str(terrainTypes.get()))
 
         def saveToCsv():
             output = ""  ## holds the fields in the form of a csv

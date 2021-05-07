@@ -23,6 +23,7 @@ class ShopInventory(Toplevel):
 
         self.title("Shop Inventory Generator") 
         self.geometry("400x650")
+        self.iconbitmap(r"The-Keep.ico")
         
         shops = readCSV("./CSVs/ShopTypes.txt") ## list of shop types
 
@@ -42,7 +43,7 @@ class ShopInventory(Toplevel):
         opt_label = Label(frame, fg="white smoke", background=BgColor, text ="Shop Type")
         opt_label.grid(row=1, column=0, padx = 2, pady = 2)
         opt = OptionMenu(frame, shopTypes, *shops) ## drop down menu select
-        opt.config(fg="white smoke", background=lblColor)
+        opt.config(fg="white smoke", background=lblColor, highlightbackground = BgColor, highlightcolor = BgColor)
         opt.grid(row=2, column=0, padx = 2, pady = 2)
 
         economic_level = StringVar()
@@ -51,7 +52,7 @@ class ShopInventory(Toplevel):
         eco_label = Label(frame, fg="white smoke", background=BgColor, text ="Economic Level")
         eco_label.grid(row=1, column=1, padx = 2, pady = 2)
         eco_opt = OptionMenu(frame, economic_level, *economic_levels) ## drop down menu select
-        eco_opt.config(fg="white smoke", background=lblColor)
+        eco_opt.config(fg="white smoke", background=lblColor, highlightbackground = BgColor, highlightcolor = BgColor)
         eco_opt.grid(row=2, column=1, padx = 2, pady = 2)
 
         output = StringVar()

@@ -16,6 +16,7 @@ class EncounterGen(Toplevel):
         super().__init__() 
         self.title("Encounter Generator") 
         self.geometry("800x400")
+        self.iconbitmap(r"The-Keep.ico")
 
         # set lable font
         lblFont = tkFont.Font(family='Helvetica', size=24, weight=tkFont.BOLD)
@@ -53,13 +54,13 @@ class EncounterGen(Toplevel):
         terrains_label = Label(frame, fg="white smoke", background=BgColor, text ="Terrain")
         terrains_label.grid(row=1, column=0, padx = 2, pady = 2)
         terrains_entry = OptionMenu(frame, terrainTypes, *terrains) ## field for entry
-        terrains_entry.config(bg = lblColor, fg = "white smoke")
+        terrains_entry.config(fg="white smoke", background=lblColor, highlightbackground = BgColor, highlightcolor = BgColor)
         terrains_entry.grid(row=2, column=0, padx = 2, pady = 2)
 
         dif_label = Label(frame, fg="white smoke", background=BgColor, text ="Difficulty")
         dif_label.grid(row=1, column=1, padx = 2, pady = 2)
         dif_entry = OptionMenu(frame, difficulty, *difficulties) ## field for entry
-        dif_entry.config(bg = lblColor, fg = "white smoke")
+        dif_entry.config(fg="white smoke", background=lblColor, highlightbackground = BgColor, highlightcolor = BgColor)
         dif_entry.grid(row=2, column=1, padx = 2, pady = 2)
 
         Label_Encounter = Label(output_frame, fg="white smoke", background=BgColor, text = "")
@@ -71,14 +72,14 @@ class EncounterGen(Toplevel):
         number_enemies_label = Label(frame, fg="white smoke", background=BgColor, text ="Number of Enemies")
         number_enemies_label.grid(row=1, column=2, padx = 2, pady = 2)
         number_enemies_entry = OptionMenu(frame, number_enemies, *mobs) ## field for entry
-        number_enemies_entry.config(bg = lblColor, fg = "white smoke")
+        number_enemies_entry.config(fg="white smoke", background=lblColor, highlightbackground = BgColor, highlightcolor = BgColor)
         number_enemies_entry.grid(row=2, column=2, padx = 2, pady = 2)
 
         btnGenMap = Button(frame, fg="white smoke", background=lblColor, text ="Generate Battlemap")
-        btnGenMap.bind("<Button>", lambda e: BattlemapGen(terrainTypes.get()))
+        btnGenMap.bind("<Button>", lambda e: BattlemapGen(str(terrainTypes.get())))
         
 
-        def loadParams():
+        def loadParamsE():
             if (Terrain != "Keep"):
                 terrainTypes.set(Terrain)
                 difficulty.set(Diff)
@@ -186,4 +187,4 @@ class EncounterGen(Toplevel):
         btnGen.bind("<Button>", lambda e: GenEncounter())
         btnGen.grid(row=2, column=9, padx = 2, pady = 2)
 
-        loadParams()
+        loadParamsE()

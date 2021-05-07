@@ -15,6 +15,7 @@ class NpcGen(Toplevel):
         super().__init__(master = master) 
         self.title("NPC Generator") 
         self.geometry("400x400")
+        self.iconbitmap(r"The-Keep.ico")
 
         # set label font
         lblFont = tkFont.Font(family='Helvetica', size=24, weight=tkFont.BOLD)
@@ -53,19 +54,19 @@ class NpcGen(Toplevel):
         labelType = Label(frame, fg="white smoke", background=BgColor, text = "NPC Type")
         labelType.grid(row=0, column=0, padx = 2, pady = 2)
         opType = OptionMenu(frame, Types, *types) ## drop down menu select
-        opType.config(fg="white smoke", background=lblColor)
+        opType.config(fg="white smoke", background=lblColor, highlightbackground = BgColor, highlightcolor = BgColor)
         opType.grid(row=1, column=0, padx = 2, pady = 2)
 
         labelType = Label(frame, fg="white smoke", background=BgColor, text = "Positive traits")
         labelType.grid(row=0, column=1, padx = 2, pady = 2)
         optP = OptionMenu(frame, numP, *pNums) ## drop down menu select
-        optP.config(fg="white smoke", background=lblColor)
+        optP.config(fg="white smoke", background=lblColor, highlightbackground = BgColor, highlightcolor = BgColor)
         optP.grid(row=1, column=1, padx = 2, pady = 2)
 
         labelN = Label(frame, fg="white smoke", background=BgColor, text = "Negative traits")
         labelN.grid(row=0, column=2, padx = 2, pady = 2)
         optN = OptionMenu(frame, numN, *nNums) ## drop down menu select
-        optN.config(fg="white smoke", background=lblColor)
+        optN.config(fg="white smoke", background=lblColor, highlightbackground = BgColor, highlightcolor = BgColor)
         optN.grid(row=1, column=2, padx = 2, pady = 2)
 
         labelOutputType = Label(lblfrme, fg="white smoke", background=BgColor, text = "")

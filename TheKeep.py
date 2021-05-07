@@ -24,6 +24,7 @@ from SpellManager import *
         
 # creates a Tk() object 
 master = Tk()
+master.iconbitmap(r"The-Keep.ico")
 master.title("The Keep")
 
 # set lable font
