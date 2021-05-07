@@ -117,7 +117,7 @@ class BattlemapGen(Toplevel):
             ##Terrain Choice
             if (terrainType == 'Arctic'):
                 color = 'Blues'
-                pic = [[noise([i/xpix, j/ypix]/5) for j in range(xpix)] for i in range(ypix)]
+                pic = [[noise([i/xpix, j/ypix]) for j in range(xpix)] for i in range(ypix)]
                 resourcePath = "./Resources/ArcticResources/"
             elif (terrainType == 'Coastal'):
                 color = 'YlGnBu'
