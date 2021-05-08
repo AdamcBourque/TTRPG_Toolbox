@@ -277,8 +277,8 @@ class OverlandManage(Toplevel):
                 terrainTypes.set(data[1])
                 text = data[2]
                 formatter = []
-                for i in range (0,int(text),5):
-                    formatter.append([i/5+1, data[4+i] , data[5+i], data[6+i], data[7+i]])
+                for i in range (0,int(text)*5,5):
+                    formatter.append([int(i/5+1), data[4+i] , data[5+i], data[6+i], data[7+i]])
                 btnFormatter.grid(row=5, column=2, padx = 2, pady = 2)
             else:
                 file_error()
@@ -294,7 +294,7 @@ class OverlandManage(Toplevel):
                     output += str(i) + ","
             output.strip(",")
                 
-            sheet = open("./MapData/" + map_name.get().replace(".png", "") + ".txt", "w") ## writes output to file "name.txt"///////////////////
+            sheet = open("./MapData/" + map_name.get().replace(".png", "").replace(".jpeg", "").replace(".jpg", "") + ".txt", "w") ## writes output to file "name.txt"///////////////////
             output = output.replace('\ufeff', '')
             sheet.write(output)
             data = output.split(',')
