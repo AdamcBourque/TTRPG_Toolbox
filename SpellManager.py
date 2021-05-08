@@ -84,7 +84,7 @@ class SpellManager(Toplevel):
 ##        btnSlots.grid(row=1, column=4, padx = 2, pady = 2)
 
         spell_level = StringVar()
-        spell_level.set("All")
+        spell_level.set("All Spells")
         school = StringVar()
         school.set("All Schools")
         spell_name = StringVar()
