@@ -159,8 +159,6 @@ class OverlandManage(Toplevel):
 
             generate_unit_hexagons(sizeX/25, sizeY/25)
 
-            saveToCsv(formatter)
-
             for c in offCoord:
                 hex_img = hex_img.resize((size_hex,size_hex), resample=1) # size of hexes
                 margin = round(size_hex/4)
@@ -181,6 +179,8 @@ class OverlandManage(Toplevel):
             first_image.show()
             first_image.save("./Maps/HexMaps/" + map_name.get())
             btnFormatter.grid(row=5, column=2, padx = 2, pady = 2)
+
+            saveToCsv(formatter)
 
 
         btnOverlay = Button(frame, fg="white smoke", background=lblColor, text ="Overlay Hex Grid")
