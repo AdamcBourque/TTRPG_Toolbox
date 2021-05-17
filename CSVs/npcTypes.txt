@@ -1,1 +1,1 @@
-Adventurers,Commoners,High Tier Villains,Low Tier Villains,Shop Keepers,Wealthy and Important People
+Adventurers,Commoners,Civil Servants,High Tier Villains,Low Tier Villains,Shop Keepers,Wealthy and Important People
