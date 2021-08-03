@@ -3,6 +3,7 @@
 ## Adam Bourque
 ## Zachary Hess
 ## Austin Lalumiere
+## and now Amber Kolar!!
 
 from tkinter import *
 from tkinter import font as tkFont
@@ -27,84 +28,65 @@ lblColor = "grey35"
 ##fontColor = "pink"
 
 ##----------------------------------------------------------------------------------------------------------------------------------
-##   Global Functions                               
+##   Global Functions
 ##----------------------------------------------------------------------------------------------------------------------------------
 
 ## dice roller function takes a string "2d8+5" and prints the rolls and total.
 ## returns total as an int
-def diceRoller(diceString):
+def diceRoller(inputString):
+    rollString = ""
+    inputString = inputString.replace(" ", "")
+    rollGroups = getRollGroups(inputString)
 
-    diceString = diceString.replace(' ', '')
-    elems = split('[+-]', diceString) ##splits into dice types and mod
-    test = split('[1234567890d]', diceString)
-    totalRoll = ""
-    total = 0
-    gross = True
-    while (gross == True):
-        try:
-            test.remove('')
-        except ValueError:
-           gross = False
-    
-    opString = diceString
-    for i in elems:
-        opString = opString.replace(i,'')
-    
-    
-    for j in range (0, len(elems)-1):
-        dice = elems[j].split('d') ## seperates dice quantity and sizes
-        try:
-            num = int(dice[0])
-        except ValueError:
-            num = 1
-        if (num > 200):
-            return "I don't have that many dice to roll"
-        for i in range (0, num):
-            temp = randint(1, int(dice[1])) 
-            
-            if (num - i == 1):    ## test if last dice in group
-                if (test == []):
-                    totalRoll += str(temp)
-                    total += temp ## adds each dice roll to the total
-                else:
-                    totalRoll += (str(temp) + test[j])
-                    if (j == 0): ## test if first group
-                        total += temp ## adds each dice roll to the total
-                    else:
-                        if (test[j-1] == '+'):
-                            total += temp ## adds each dice roll to the total
-                        else:
-                            total -= temp ## subtracts each dice roll to the total
-            else:
-                total += temp ## adds each dice roll to the total
-                totalRoll += (str(temp) + "+")
-                
-    if (elems[-1].find('d') == -1): ## Checks if there is a modifier
-        mod = elems[-1] ## stat modifier
-        if (test[-1] == '+'):
-            total += int(mod)
+    print(rollGroups)
+    return rollString
+
+    # TODO: Input ab(cd(ef) gh(ij)) kl(mn) should get us this:
+    # [
+    #     ['ab', 'cd(ef) gh(ij)'],
+    #     ['kl', 'mn']
+    # ]
+    #
+    # but instead gets us this:
+    # [
+    #     ['ab', 'cd(ef'],
+    #     ['gh', 'ij'],
+    #     ['kl', 'mn']
+    # ]
+
+def getRollGroups(inputString):
+    rollGroups = []
+    valuesBeforeGroup = []
+    recordingRollGroup = False
+
+    for i in range(len(inputString)):
+        if inputString[i] == ")":
+            recordingRollGroup = False
+            valuesBeforeGroup = []
+
+        if recordingRollGroup:
+            rollGroups[-1][1].append(inputString[i])
         else:
-            total -= int(mod)
-        totalRoll += str(mod)
-    else:
-        dice = elems[-1].split('d') ## seperates dice quantity and sizes
-        try:
-            num = int(dice[0])
-        except ValueError:
-            num = 1
-        for i in range (0, num):
-            temp = randint(1, int(dice[1])) 
-            total += temp ## adds each dice roll to the total
-            if (num - i == 1):
-                totalRoll += str(temp)
-            else:
-                totalRoll += (str(temp) + "+")
-        
-        
-    totalRoll += (" = " + str(total))
+            if inputString[i] == "(":
+                stringBeforeGroup = arrayToString(valuesBeforeGroup)
 
-    return totalRoll
-               
+                # TODO: This is not splitting on the + sign as it should. Test the other split options.
+                numericalValuesBeforeGroup = split("\+\-\*\/", stringBeforeGroup)[-1]
+                rollGroups.append([numericalValuesBeforeGroup, []])
+                recordingRollGroup = True
+            elif inputString[i] != ")":
+                valuesBeforeGroup.append(inputString[i])
+
+    for i in range(len(rollGroups)):
+        rollGroups[i][1] = arrayToString(rollGroups[i][1])
+
+    return rollGroups
+
+def arrayToString(arrayInput):
+    stringOutput = ""
+    for i in range(len(arrayInput)):
+        stringOutput += arrayInput[i]
+    return stringOutput
 
 def readCSV(filename):  ## makes a list from a csv
     file = open(filename, "r", encoding="utf8")
@@ -141,7 +123,7 @@ def readTupleCSV2(filename):
 
 
 ## returns one item from a coma seperatied list
-def selectFromList(items):  
+def selectFromList(items):
     return items[randint(0,len(items)-1)]
 
 
@@ -150,7 +132,7 @@ def gcd(a, b):
     while (b!=0):
     	t=b
     	b=a%b
-    	a=t	
+    	a=t
     return a
 
 def reduce(numerator,denominator):
@@ -174,7 +156,7 @@ def dec_to_frac(num):
             return str(int(temp[0])) + '/' + str(int(temp[1]))
     else:
         return str(int(num))
-    
+
 def file_error():
     error = Toplevel(self)
     error.title("Notice")
