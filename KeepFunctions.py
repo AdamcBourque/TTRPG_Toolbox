@@ -69,9 +69,8 @@ def getRollGroups(inputString):
         else:
             if inputString[i] == "(":
                 stringBeforeGroup = arrayToString(valuesBeforeGroup)
-
-                # TODO: This is not splitting on the + sign as it should. Test the other split options.
-                numericalValuesBeforeGroup = split("\+\-\*\/", stringBeforeGroup)[-1]
+                numericalValuesBeforeGroup = stringBeforeGroup.split('*')[-1]
+                numericalValuesBeforeGroup = split('[+-/]', numericalValuesBeforeGroup)[-1]
                 rollGroups.append([numericalValuesBeforeGroup, []])
                 recordingRollGroup = True
             elif inputString[i] != ")":
